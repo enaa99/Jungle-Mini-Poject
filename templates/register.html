@@ -20,34 +20,39 @@
       crossorigin="anonymous"
     ></script>
     <script>
-      function userRegister() {
-        let title = $("#memo-title").val();
-        let content = $("#memo-content").val();
+        function userRegister() {
 
-        // if ((title == "") || title == "null") {
-        // alert("title을 입력하세요.")
-        //     } else if ((content == "") || (content == "null")) {
-        //         alert("content를 입력하세요.")
-        // //     } else {
-        // //         $.ajax({
-        // //             type: "POST",
-        // //             url: "/api/save",
-        // //             data: {
-        // //                 title_to_back: title,
-        // //                 content_to_back: content
-        // //             },
-        // //             success: function (response) {
-        // //                 if (response["result"] == "success") {
-        // //                     alert('포스팅 성공!');
-        // //                     window.location.reload();
-        // //                 } else {
-        // //                     alert(response["result"]);
-        // //                 }
-        // //             }
-        // //         });
-        // //     }
-        // // }
-      }
+            let id = $('#id').val();
+            let password = $('#password').val();
+            let confirm_password = $('#confirm_password').val();
+            let name = $('#nickname').val();
+            let email = $('#email').val();
+            let radio = $("input[name='class_radio']:checked").val();
+            console.log(id, password, confirm_password, name, email, radio)
+
+            $.ajax({
+                type: "POST",
+                url: "/auth/register",
+                data: {
+                    id_give : id,
+                    password_give : password,
+                    confirm_password_give : confirm_password,
+                    name_give : name,
+                    email_give : email,
+                    radio_give : radio
+                },
+                success: function (response) {
+                    console.log(response)
+                    if (response["result"] == "success") {
+                        alert('회원가입 완료');
+                        window.location.replace("/home");
+;
+                    } else {
+                        alert(response["result"]);
+                    }
+                }
+            });
+        }
     </script>
 
     <title>Krafton Jungle Team06</title>
@@ -137,8 +142,8 @@
                 >
                 <input
                   type="text"
-                  name="name"
-                  id="name"
+                  name="nickname"
+                  id="nickname"
                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                   placeholder="닉네임을 입력해주세요"
                   required=""
@@ -172,6 +177,7 @@
                       disabled
                     />
                   </div>
+                    </form>
                 </div>
               </div>
               <div>
@@ -191,7 +197,7 @@
                         id="class_red"
                         type="radio"
                         value="red"
-                        name="class_red"
+                        name="class_radio"
                         class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
                       />
                       <label
@@ -209,7 +215,7 @@
                         id="class_blue"
                         type="radio"
                         value="blue"
-                        name="class_blue"
+                        name="class_radio"
                         class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
                       />
                       <label
