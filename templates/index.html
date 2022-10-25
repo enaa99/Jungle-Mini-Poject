@@ -68,24 +68,22 @@
      
         console.log(upwd)
         $.ajax({
-          type:"POST",
-          url:"/auth/signin",
-          data:{"uid":uid,"pwd":upwd},
-          success:function(response){
-            console.log(response)
-            let access_token = response['token']
-            console.log(access_token)
-              if(response['result'] == 'success'){
-                $.cookie('mytoken', response['token'], {path:'/'});
-                window.location.replace("/home")
-              }
-              else{
-                alert(response['result'])
-              } 
-          }
-        })
+          type: "POST",
+          url: "/auth/signin",
+          data: { uid: uid, pwd: upwd },
+          success: function (response) {
+            console.log(response);
+            let access_token = response["token"];
+            console.log(access_token);
+            if (response["result"] == "success") {
+              $.cookie("mytoken", response["token"], { path: "/" });
+              window.location.replace("/home");
+            } else {
+              alert(response["result"]);
+            }
+          },
+        });
       }
-
     </script>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
