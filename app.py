@@ -27,7 +27,7 @@ client = MongoClient(config['HOST'],
                  password=config['PASSWORD'])
 
 db = client.dbjungle
-headers = {'User-Agent' : 'Moz                                                                                                                illa/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
+headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
 
 
 SECRET_KEY = 'jungle'
@@ -94,7 +94,7 @@ def user_register():
      #confirm password
     if password_receive != confirm_password_receive:
          return jsonify({'result' :'비밀번호가 동일하지 않습니다.'})
-         
+
     #password string check
     if len(password_receive) < 8:
         return jsonify({'result' : '비밀번호는 8자리 이상으로 입력하세요.'}) 
