@@ -79,9 +79,7 @@ def post_signin():
                 'exp': datetime.utcnow() + timedelta(hours=1),
             }
             print(datetime.utcnow())
-            print('22')
             token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
-            print('33')
             return jsonify({'result': 'success', 'token': token})
         else:
             return jsonify({'result':'failed'})
