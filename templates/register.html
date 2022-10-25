@@ -1,25 +1,31 @@
 <!DOCTYPE html>
 <html lang="ko">
-
-<head>
+  <head>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
     <!-- Import Jquery -->
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+    <script
+      src="https://code.jquery.com/jquery-3.5.1.min.js"
+      crossorigin="anonymous"
+    ></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
-    </script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+      integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+      crossorigin="anonymous"
+    ></script>
     <script>
-        function userRegister() {
-           
-            let title = $('#memo-title').val();
-            let content = $('#memo-content').val();
+      function userRegister() {
+        let title = $("#memo-title").val();
+        let content = $("#memo-content").val();
 
-            // if ((title == "") || title == "null") {
-                // alert("title을 입력하세요.")
+        // if ((title == "") || title == "null") {
+        // alert("title을 입력하세요.")
         //     } else if ((content == "") || (content == "null")) {
         //         alert("content를 입력하세요.")
         // //     } else {
@@ -41,8 +47,7 @@
         // //         });
         // //     }
         // // }
-
-        }
+      }
     </script>
 
     <title>Krafton Jungle Team06</title>
@@ -50,111 +55,189 @@
     <!-- Style -->
 
     <script src="https://cdn.tailwindcss.com"></script>
-</head>
+  </head>
 
-<body>
-    <section class="bg-gray-50 dark:bg-gray-900">
-        <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-            <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-                <img class="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
-                    alt="logo">
-                Flowbite
-            </a>
-            <div
-                class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-                <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-                    <h1
-                        class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                        Sign-Up
-                    </h1>
-                    <form class="space-y-4 md:space-y-6" action="#">
-                        <div>
-                            <label for="id"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ID</label>
-                            <input type="text" name="id" id="id"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="ID를 입력해주세요" required="">
-                        </div>
-                        <div>
-                            <label for="password"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
-                            <input type="password" name="password" id="password" placeholder="비밀번호를 입력해주세요"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                required="">
-                        </div>
-                        <div>
-                            <label for="confirm_password"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirm
-                                Password</label>
-                            <input type="password" name="confirm_password" id="confirm_password"
-                                placeholder="비밀번호를 입력해주세요"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                required="">
-                        </div>
+  <body>
+    <section class="bg-gray-50">
+      <div
+        class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
+      >
+        <a
+          href="#"
+          class="flex items-center mb-6 text-2xl font-semibold text-gray-900"
+        >
+          <img
+            class="w-8 h-8 mr-2"
+            src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg"
+            alt="logo"
+          />
+          Flowbite
+        </a>
+        <div
+          class="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0"
+        >
+          <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+            <h1
+              class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl"
+            >
+              Sign-Up
+            </h1>
+            <form class="space-y-4 md:space-y-6" action="#">
+              <div>
+                <label
+                  for="id"
+                  class="block mb-2 text-sm font-medium text-gray-900"
+                  >ID</label
+                >
+                <input
+                  type="text"
+                  name="id"
+                  id="id"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  placeholder="ID를 입력해주세요"
+                  required=""
+                />
+              </div>
+              <div>
+                <label
+                  for="password"
+                  class="block mb-2 text-sm font-medium text-gray-900"
+                  >Password</label
+                >
+                <input
+                  type="password"
+                  name="password"
+                  id="password"
+                  placeholder="비밀번호를 입력해주세요"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  required=""
+                />
+              </div>
+              <div>
+                <label
+                  for="confirm_password"
+                  class="block mb-2 text-sm font-medium text-gray-900"
+                  >Confirm Password</label
+                >
+                <input
+                  type="password"
+                  name="confirm_password"
+                  id="confirm_password"
+                  placeholder="비밀번호를 입력해주세요"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  required=""
+                />
+              </div>
 
-                        <div>
-                            <label for="name"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                            <input type="text" name="name" id="name"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="닉네임을 입력해주세요" required="">
-                        </div>
-                        <div>
-                            <label for="email"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">E-Mail</label>
-                            <div class="flex items-center">
-                                <div class="pr-7">  
-                                    <input type="email" name="email" id="email"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-half p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="이메일을 입력해주세요" required=""> </div>
-                               <div>
-                                <input type="email" name="email" id="email"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-half p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="gmail.com" required="" disabled>
-                               </div>
- 
-                            </div>
-                            
-                        </div>
-                        <div>
-                            <label for="class"
-                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Class</label>
-                            <ul
-                                class="items-center w-full text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                                <li
-                                    class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                                    <div class="flex items-center pl-3">
-                                        <input id="class_red" type="radio" value="red" name="class_red"
-                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                        <label for="class_red"
-                                            class="py-3 ml-2 w-full text-sm font-medium text-gray-900 dark:text-gray-300">RED
-                                        </label>
-                                    </div>
-                                </li>
-                                <li
-                                    class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
-                                    <div class="flex items-center pl-3">
-                                        <input id="class_blue" type="radio" value="blue" name="class_blue"
-                                            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
-                                        <label for="class_blue"
-                                            class="py-3 ml-2 w-full text-sm font-medium text-gray-900 dark:text-gray-300">BLUE</label>
-                                    </div>
-                                </li>
-
-                            </ul>
-                        </div>
-                        <button type="button"
-                            class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Cancel</button>
-                        <button type="submit"
-                            onclick="userRegister()"
-                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Sign-Up</button>
-
-                      
-                    </form>
+              <div>
+                <label
+                  for="name"
+                  class="block mb-2 text-sm font-medium text-gray-900"
+                  >Name</label
+                >
+                <input
+                  type="text"
+                  name="name"
+                  id="name"
+                  class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
+                  placeholder="닉네임을 입력해주세요"
+                  required=""
+                />
+              </div>
+              <div>
+                <label
+                  for="email"
+                  class="block mb-2 text-sm font-medium text-gray-900"
+                  >E-Mail</label
+                >
+                <div class="flex items-center">
+                  <div class="pr-7">
+                    <input
+                      type="email"
+                      name="email"
+                      id="email"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-half p-2.5"
+                      placeholder="이메일을 입력해주세요"
+                      required=""
+                    />
+                  </div>
+                  <div>
+                    <input
+                      type="email"
+                      name="email"
+                      id="email"
+                      class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-half p-2.5"
+                      placeholder="gmail.com"
+                      required=""
+                      disabled
+                    />
+                  </div>
                 </div>
-            </div>
+              </div>
+              <div>
+                <label
+                  for="class"
+                  class="block mb-2 text-sm font-medium text-gray-900"
+                  >Class</label
+                >
+                <ul
+                  class="items-center w-full text-sm font-medium text-gray-900 bg-white rounded-lg border border-gray-200 sm:flex"
+                >
+                  <li
+                    class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r"
+                  >
+                    <div class="flex items-center pl-3">
+                      <input
+                        id="class_red"
+                        type="radio"
+                        value="red"
+                        name="class_red"
+                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+                      />
+                      <label
+                        for="class_red"
+                        class="py-3 ml-2 w-full text-sm font-medium text-gray-900"
+                        >RED
+                      </label>
+                    </div>
+                  </li>
+                  <li
+                    class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r"
+                  >
+                    <div class="flex items-center pl-3">
+                      <input
+                        id="class_blue"
+                        type="radio"
+                        value="blue"
+                        name="class_blue"
+                        class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500"
+                      />
+                      <label
+                        for="class_blue"
+                        class="py-3 ml-2 w-full text-sm font-medium text-gray-900"
+                        >BLUE</label
+                      >
+                    </div>
+                  </li>
+                </ul>
+              </div>
+              <button
+                type="button"
+                class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                onclick="userRegister()"
+                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2"
+              >
+                Sign-Up
+              </button>
+            </form>
+          </div>
         </div>
+      </div>
     </section>
-</body>
-
+  </body>
 </html>

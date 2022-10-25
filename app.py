@@ -7,6 +7,7 @@ from bson import ObjectId
 from dotenv import dotenv_values
 import jwt
 import bcrypt
+from pymongo import MongoClient
 app = Flask(__name__)
 
 import bcrypt
