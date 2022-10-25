@@ -1,8 +1,11 @@
-from datetime import datetime
+
+from datetime import timedelta,datetime
+
+
 from distutils.debug import DEBUG
 from os import access
 from sqlite3 import Time
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, redirect
 from bson import ObjectId
 from dotenv import dotenv_values
 from pymongo import MongoClient
@@ -10,9 +13,10 @@ import jwt
 import bcrypt
 from pymongo import MongoClient
 app = Flask(__name__)
-
+from pymongo import MongoClient
 import bcrypt
-import re 
+import re
+
 # from flask_jwt_extended import JWTManager
 # from flask_jwt_extended import create_access_token
 
@@ -34,6 +38,20 @@ headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/
 SECRET_KEY = 'jungle'
 
 
+def validate_token(token):
+    try:
+        jwt.decode(token,SECRET_KEY,algorithms=['HS256'])
+    except jwt.ExpiredSignatureError:
+        print('1')
+        return redirect('/')
+    except jwt.exceptions.DecodeError:
+        print('2')
+        return redirect('/')
+    else:
+        print('3')
+        return jsonify({'result':'success'})
+        
+
 @app.route('/')
 def home():
    return render_template('index.html')
@@ -47,24 +65,33 @@ def post_signin():
     print(user_data)
     if user_data != None :
         encrypted_password = user_data['password']
-        print(encrypted_password)
-        print('1')
-        print(bcrypt.checkpw(pwd_receive.encode("utf-8"), encrypted_password))
-        print('2')
+      
 
         if bcrypt.checkpw(pwd_receive.encode("utf-8"), encrypted_password) :
             payload = {
                 'id':name_receive,
                 #유효시간 설정하기
-                'expire': False,
+                #datetime.datetime.utcnow() + datetime.timedelta(seconds=7)
+                
+                'exp': datetime.utcnow() + timedelta(hours=1),
             }
+            print(datetime.utcnow())
+            print('22')
             token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
+            print('33')
             return jsonify({'result': 'success', 'token': token})
         else:
             return jsonify({'result':'failed'})
     else:
         return jsonify({'result':'아이디가 존재하지 않습니다'})
 
+@app.route('/home')
+def homecoming():
+    print('ok')
+    token_receive = request.cookies.get('mytoken')
+    print('no')
+
+    return validate_token(token_receive)
 
 
 @app.route('/auth/signup', methods=['GET'])
@@ -117,7 +144,5 @@ def user_register():
     return jsonify({'result' : 'success'}) 
 
        
-
-
 if __name__ == '__main__':
    app.run('0.0.0.0',port=5000,debug=True)
