@@ -6,7 +6,7 @@ from distutils.debug import DEBUG
 from os import access
 from sqlite3 import Time
 from flask import Flask, render_template, jsonify, request, redirect
-from bson import ObjectId
+from bson import ObjectId, is_valid
 from dotenv import dotenv_values
 from pymongo import MongoClient
 import jwt
@@ -42,19 +42,25 @@ def validate_token(token):
     try:
         jwt.decode(token,SECRET_KEY,algorithms=['HS256'])
     except jwt.ExpiredSignatureError:
-        print('1')
-        return redirect('/')
+        return False
     except jwt.exceptions.DecodeError:
-        print('2')
-        return redirect('/')
+        return False
     else:
-        print('3')
-        return jsonify({'result':'success'})
+        return True
         
 
 @app.route('/')
 def home():
-   return render_template('index.html')
+    token_receive = request.cookies.get('mytoken')
+    if(token_receive != None):
+        is_valid = validate_token(token_receive)
+        if is_valid:
+            #home
+            return redirect('/home')
+        else:
+            return render_template('index.html')
+    else:
+        return render_template('index.html')
 
 @app.route('/auth/signin', methods=['POST'])
 def post_signin():
@@ -69,10 +75,7 @@ def post_signin():
 
         if bcrypt.checkpw(pwd_receive.encode("utf-8"), encrypted_password) :
             payload = {
-                'id':name_receive,
-                #유효시간 설정하기
-                #datetime.datetime.utcnow() + datetime.timedelta(seconds=7)
-                
+                'id':name_receive,                
                 'exp': datetime.utcnow() + timedelta(hours=1),
             }
             print(datetime.utcnow())
@@ -84,20 +87,20 @@ def post_signin():
             return jsonify({'result':'failed'})
     else:
         return jsonify({'result':'아이디가 존재하지 않습니다'})
-
+#home
 @app.route('/home')
 def homecoming():
-    print('ok')
     token_receive = request.cookies.get('mytoken')
-    return render_template('home.html') 
-    print('no')
-
-    return validate_token(token_receive)
+    is_valid = validate_token(token_receive)
+    if is_valid:
+        return render_template('home.html') 
+    else:
+        return redirect('/')
 
 
 @app.route('/auth/signup', methods=['GET'])
 def user_signup():
-   return render_template('register.html') 
+   return render_template('/') 
 
 @app.route('/auth/signup', methods=['POST'])
 def user_register():
