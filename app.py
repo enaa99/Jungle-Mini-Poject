@@ -98,7 +98,7 @@ def homecoming():
 def user_signup():
    return render_template('register.html') 
 
-@app.route('/auth/register', methods=['POST'])
+@app.route('/auth/signup', methods=['POST'])
 def user_register():
    #get user information
     id_receive = request.form['id_give']
@@ -141,6 +141,44 @@ def user_register():
     user = {'id' : id_receive, 'password' : pw_hash, 'name' : name_receive, 'email' : email_receive
     , 'class' : class_receive}
     db.user.insert_one(user)
+    return jsonify({'result' : 'success'}) 
+
+# 모임 리스트 조회
+@app.route('/party', methods=['GET'])
+def party_create():
+    partys = list(db.party.find({}))
+    print(partys)
+    return render_template('home.html', partys = partys)
+
+# 모임 생성
+@app.route('/party', methods=['POST'])
+def party_register():
+   #get user information
+    host_receive = request.form['host_give']
+    title_receive = request.form['title_give']  
+    store_receive = request.form['store_give']  
+    category_receive = request.form['category_give'] 
+    menu_receive = request.form['menu_give']
+    hour_receive = request.form['hour_give'] 
+    minute_receive = request.form['minute_give'] 
+    place_receive = request.form['place_give']
+    people_receive = request.form['people_give']  
+    state_receive = request.form['state_give']
+    participant = [host_receive]
+    print(host_receive, title_receive, store_receive, category_receive, menu_receive, place_receive, people_receive, state_receive, participant)
+
+    party_data = {'host': host_receive, 'title': title_receive, 'store': store_receive, 'category': category_receive,
+                  'menu': menu_receive, 'hour': hour_receive, 'minute': minute_receive, 'place': place_receive, 'people': people_receive, 'state': state_receive, 'participant': participant}
+    db.party.insert_one(party_data)
+    return jsonify({'result' : 'success'}) 
+
+# 모임 삭제
+@app.route('/party', methods=['DELETE'])
+def party_delete():
+    object_id_receive = request.form['object_id_give']
+    object_id = ObjectId(object_id_receive)
+    print(object_id_receive)
+    db.party.deleteOne({'_id' : object_id})
     return jsonify({'result' : 'success'}) 
 
        
