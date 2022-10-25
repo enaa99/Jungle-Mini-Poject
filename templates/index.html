@@ -61,41 +61,35 @@
     </style>
 
     <!-- Script -->
-<<<<<<< HEAD
     <script>
       $(document).ready(function () {
 
       });
 
-      // 로그인
-      function postSignin() {
-        let uid = $("#myId").val()
-        let upwd = $("#myPwd").val()
-        console.log(uid)
-        console.log(upwd)
+     // 로그인
+     function postSignin() {
+        let uid = $("#myId").val();
+        let upwd = $("#myPwd").val();
+        console.log(uid);
+        console.log(upwd);
         $.ajax({
-          type:"POST",
-          url:"/auth/signin",
-          data:{"uid":uid,"pwd":upwd},
-          success:function(response){
-            console.log(response)
-            let access_token = response['token']
-            console.log(access_token)
-              if(response['result'] == 'success'){
-                $.cookie('mytoken', response['token'], {path:'/'});
-                window.location.replace("/home")
-              }
-              else{
-                alert(response['result'])
-              } 
-          }
-        })
+          type: "POST",
+          url: "/auth/signin",
+          data: { uid: uid, pwd: upwd },
+          success: function (response) {
+            console.log(response);
+            let access_token = response["token"];
+            console.log(access_token);
+            if (response["result"] == "success") {
+              $.cookie("mytoken", response["token"], { path: "/" });
+              window.location.replace("/home");
+            } else {
+              alert(response["result"]);
+            }
+          },
+        });
       }
-
     </script>
-=======
-    <script></script>
->>>>>>> f394ca5dddd3ed32a13bebcff922345c81a08ddf
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
 
@@ -106,12 +100,8 @@
         <div
           class="flex xl:justify-center lg:justify-between justify-center items-center flex-wrap h-full g-6"
         >
-<<<<<<< HEAD
        
           <div class="xl:w-5/12 lg:w-5/12 md:w-8/12 mb-12 md:mb-0 ">
-=======
-          <div class="xl:w-5/12 lg:w-5/12 md:w-8/12 mb-12 md:mb-0">
->>>>>>> f394ca5dddd3ed32a13bebcff922345c81a08ddf
             <form>
               <div class="grid justify-items-center">
                 <div>
