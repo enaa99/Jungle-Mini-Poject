@@ -79,9 +79,7 @@ def post_signin():
                 'exp': datetime.utcnow() + timedelta(hours=1),
             }
             print(datetime.utcnow())
-            print('22')
             token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
-            print('33')
             return jsonify({'result': 'success', 'token': token})
         else:
             return jsonify({'result':'failed'})
@@ -100,7 +98,7 @@ def homecoming():
 
 @app.route('/auth/signup', methods=['GET'])
 def user_signup():
-   return render_template('/') 
+   return render_template('register.html') 
 
 @app.route('/auth/signup', methods=['POST'])
 def user_register():
