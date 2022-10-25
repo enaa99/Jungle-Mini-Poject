@@ -100,7 +100,7 @@ def homecoming():
 
 @app.route('/auth/signup', methods=['GET'])
 def user_signup():
-   return render_template('/') 
+   return render_template('register.html') 
 
 @app.route('/auth/signup', methods=['POST'])
 def user_register():
