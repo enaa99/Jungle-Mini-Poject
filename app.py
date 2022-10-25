@@ -6,7 +6,7 @@ from distutils.debug import DEBUG
 from os import access
 from sqlite3 import Time
 from flask import Flask, render_template, jsonify, request, redirect
-from bson import ObjectId
+from bson import ObjectId, is_valid
 from dotenv import dotenv_values
 from pymongo import MongoClient
 import jwt
@@ -42,19 +42,25 @@ def validate_token(token):
     try:
         jwt.decode(token,SECRET_KEY,algorithms=['HS256'])
     except jwt.ExpiredSignatureError:
-        print('1')
-        return redirect('/')
+        return False
     except jwt.exceptions.DecodeError:
-        print('2')
-        return redirect('/')
+        return False
     else:
-        print('3')
-        return jsonify({'result':'success'})
+        return True
         
 
 @app.route('/')
 def home():
-   return render_template('index.html')
+    token_receive = request.cookies.get('mytoken')
+    if(token_receive != None):
+        is_valid = validate_token(token_receive)
+        if is_valid:
+            #home
+            return redirect('/home')
+        else:
+            return render_template('index.html')
+    else:
+        return render_template('index.html')
 
 @app.route('/auth/signin', methods=['POST'])
 def post_signin():
@@ -69,10 +75,7 @@ def post_signin():
 
         if bcrypt.checkpw(pwd_receive.encode("utf-8"), encrypted_password) :
             payload = {
-                'id':name_receive,
-                #유효시간 설정하기
-                #datetime.datetime.utcnow() + datetime.timedelta(seconds=7)
-                
+                'id':name_receive,                
                 'exp': datetime.utcnow() + timedelta(hours=1),
             }
             print(datetime.utcnow())
@@ -84,14 +87,15 @@ def post_signin():
             return jsonify({'result':'failed'})
     else:
         return jsonify({'result':'아이디가 존재하지 않습니다'})
-
+#home
 @app.route('/home')
 def homecoming():
-    print('ok')
     token_receive = request.cookies.get('mytoken')
-    print('no')
-
-    return validate_token(token_receive)
+    is_valid = validate_token(token_receive)
+    if is_valid:
+        return render_template('home.html') 
+    else:
+        return redirect('/')
 
 
 @app.route('/auth/signup', methods=['GET'])
@@ -182,5 +186,48 @@ def party_delete():
     return jsonify({'result' : 'success'}) 
 
        
+
+
+@app.route('/party/join', methods=['POST'])
+def party_join():
+    cardid_receive = request.form['cardid_give'] 
+    userid_receive = request.form['userid_give'] 
+    object_id = ObjectId(cardid_receive)
+
+    party_info = db.party.find_one({ '_id' : object_id })
+   
+    if party_info is None:
+        return jsonify({'result' : '해당 모임이 없습니다'})
+
+    state = int(party_info['state']) 
+    participant = party_info['participant']
+    current_num = len(party_info['participant'])
+    max_num = int(party_info['people']) 
+   
+    if state == 0 and current_num < max_num and userid_receive not in participant:
+        db.party.update_one( { "_id" : object_id }, { "$push": { "participant" : userid_receive } } );
+        after_push = db.party.find_one({ '_id' : object_id })
+        current_num = len(after_push['participant'])
+        if current_num == max_num:
+            db.party.update_one( { "_id" : object_id }, { "$set" : {"state" : "1" } } );
+        return jsonify({'result' : 'success'}) 
+    else:
+        return jsonify({'result' : '모임에 참여할 수 없습니다.'}) 
+
+
+
+
+    # object_id_receive = request.form['object_id_give']
+    # object_id = ObjectId(object_id_receive)
+    # print(object_id_receive)
+    # db.party.deleteOne({'_id' : object_id})
+    # return jsonify({'result' : 'success'}) 
+
+    
+@app.route('/party/cancel' , methods = ['PUT'])
+def party_cancel():
+    return jsonify({'result' : 'success'})  
+
+
 if __name__ == '__main__':
    app.run('0.0.0.0',port=5000,debug=True)
