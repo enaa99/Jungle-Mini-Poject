@@ -14,34 +14,37 @@
     </script>
     <script>
         function userRegister() {
-           
-            let title = $('#memo-title').val();
-            let content = $('#memo-content').val();
 
-            // if ((title == "") || title == "null") {
-                // alert("title을 입력하세요.")
-        //     } else if ((content == "") || (content == "null")) {
-        //         alert("content를 입력하세요.")
-        // //     } else {
-        // //         $.ajax({
-        // //             type: "POST",
-        // //             url: "/api/save",
-        // //             data: {
-        // //                 title_to_back: title,
-        // //                 content_to_back: content
-        // //             },
-        // //             success: function (response) {
-        // //                 if (response["result"] == "success") {
-        // //                     alert('포스팅 성공!');
-        // //                     window.location.reload();
-        // //                 } else {
-        // //                     alert(response["result"]);
-        // //                 }
-        // //             }
-        // //         });
-        // //     }
-        // // }
+            let id = $('#id').val();
+            let password = $('#password').val();
+            let confirm_password = $('#confirm_password').val();
+            let name = $('#nickname').val();
+            let email = $('#email').val();
+            let radio = $("input[name='class_radio']:checked").val();
+            console.log(id, password, confirm_password, name, email, radio)
 
+            $.ajax({
+                type: "POST",
+                url: "/auth/register",
+                data: {
+                    id_give : id,
+                    password_give : password,
+                    confirm_password_give : confirm_password,
+                    name_give : name,
+                    email_give : email,
+                    radio_give : radio
+                },
+                success: function (response) {
+                    console.log(response)
+                    if (response["result"] == "success") {
+                        alert('회원가입 완료');
+                        window.location.replace("/home");
+;
+                    } else {
+                        alert(response["result"]);
+                    }
+                }
+            });
         }
     </script>
 
@@ -93,9 +96,9 @@
                         </div>
 
                         <div>
-                            <label for="name"
+                            <label for="nickname"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Name</label>
-                            <input type="text" name="name" id="name"
+                            <input type="text" name="nickname" id="nickname"
                                 class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="닉네임을 입력해주세요" required="">
                         </div>
@@ -103,18 +106,18 @@
                             <label for="email"
                                 class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">E-Mail</label>
                             <div class="flex items-center">
-                                <div class="pr-7">  
-                                    <input type="email" name="email" id="email"
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-half p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    placeholder="이메일을 입력해주세요" required=""> </div>
-                               <div>
-                                <input type="email" name="email" id="email"
-                                class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-half p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                placeholder="gmail.com" required="" disabled>
-                               </div>
- 
+                                <div class="pr-7">
+                                    <input type="text" name="email" id="email"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-half p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="이메일을 입력해주세요" required=""> </div>
+                                <div>
+                                    <input type="text" name="" id=""
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-half p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        placeholder="gmail.com" required="" disabled>
+                                </div>
+
                             </div>
-                            
+
                         </div>
                         <div>
                             <label for="class"
@@ -124,7 +127,7 @@
                                 <li
                                     class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                                     <div class="flex items-center pl-3">
-                                        <input id="class_red" type="radio" value="red" name="class_red"
+                                        <input id="class_red" type="radio" value="red" name="class_radio"
                                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
                                         <label for="class_red"
                                             class="py-3 ml-2 w-full text-sm font-medium text-gray-900 dark:text-gray-300">RED
@@ -134,7 +137,7 @@
                                 <li
                                     class="w-full border-b border-gray-200 sm:border-b-0 sm:border-r dark:border-gray-600">
                                     <div class="flex items-center pl-3">
-                                        <input id="class_blue" type="radio" value="blue" name="class_blue"
+                                        <input id="class_blue" type="radio" value="blue" name="class_radio"
                                             class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
                                         <label for="class_blue"
                                             class="py-3 ml-2 w-full text-sm font-medium text-gray-900 dark:text-gray-300">BLUE</label>
@@ -145,11 +148,10 @@
                         </div>
                         <button type="button"
                             class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Cancel</button>
-                        <button type="submit"
-                            onclick="userRegister()"
+                        <button type="button" onclick="userRegister()"
                             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Sign-Up</button>
 
-                      
+
                     </form>
                 </div>
             </div>
