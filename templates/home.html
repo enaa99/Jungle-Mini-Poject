@@ -59,6 +59,13 @@
         color: #397af6;
       }
     </style>
+    <script>
+      // 로그 아웃
+      function signOut(){
+        $.removeCookie('mytoken',{path:'/'});
+        window.location.href = '/';
+      }
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
 
@@ -103,6 +110,7 @@
                   ></path>
                 </svg>
               </button>
+             
               <a
                 href="#"
                 class="text-2xl text-gray-700 font-bold flex items-center lg:ml-2.5"
@@ -124,6 +132,11 @@
               </a>
             </div>
             <div class="flex items-center">
+              <div class="pr-4">
+              <button onclick="signOut()" class="bg-transparent hover:bg-black-500 text-black-700 font-semibold hover:text-white py-2 px-4 border border-black-500 hover:border-transparent rounded">
+                logout
+              </button>
+            </div>
               <a href="#">
                 <svg
                   class="w-10 h-10 stroke-gray-700"
@@ -519,8 +532,6 @@
           id="sidebarBackdrop"
         ></div>
       </div>
-      <script async defer src="https://buttons.github.io/buttons.js"></script>
-      <script src="https://demo.themesberg.com/windster/app.bundle.js"></script>
     </div>
   </body>
 </html>
