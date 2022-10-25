@@ -76,7 +76,7 @@ def post_signin():
         if bcrypt.checkpw(pwd_receive.encode("utf-8"), encrypted_password) :
             payload = {
                 'id':name_receive,                
-                'exp': datetime.utcnow() + timedelta(seconds=5),
+                'exp': datetime.utcnow() + timedelta(hours=1),
             }
             print(datetime.utcnow())
             print('22')
