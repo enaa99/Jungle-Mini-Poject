@@ -8,6 +8,7 @@ from dotenv import dotenv_values
 from pymongo import MongoClient
 import jwt
 import bcrypt
+from pymongo import MongoClient
 app = Flask(__name__)
 
 import bcrypt
