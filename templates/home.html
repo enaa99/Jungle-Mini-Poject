@@ -31,6 +31,31 @@
       crossorigin="anonymous"
     ></script>
 
+    <script>
+      function joinParty(host_id,object_id ) {
+      // object_id = "6357e7f9c058107b859a3214"
+
+      // joinParty(test, 6357e7f9c058107b859a3214)
+      console.log(host_id, object_id)
+      $.ajax({
+        type: "POST",
+        url: "/party/join",
+        data: {
+          cardid_give: object_id,
+          userid_give: host_id,
+        },
+        success: function (response) {
+          console.log(response)
+          if (response["result"] == "success") {
+            alert('참여 완료');
+            window.location.href = '/home';
+          } else {
+            alert(response["result"]);
+          }
+        }
+      });
+      }
+    </script>
     <!-- Google Font -->
     <!-- <link
       href="https://fonts.googleapis.com/css?family=Stylish&display=swap"
@@ -560,8 +585,9 @@
           <li> {{party.place}} </li>
           <li> {{party.people}} </li>
           <li> {{party.state}} </li>
+
         </ul>
-        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold mt-4 py-2 px-4 rounded">
+        <button onclick="joinParty('{{party.host}}', '{{party._id}}')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold mt-4 py-2 px-4 rounded">
           참여하기
         </button>
       </div>
