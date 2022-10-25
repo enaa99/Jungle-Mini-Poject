@@ -3,30 +3,23 @@ from bson import ObjectId
 from pymongo import MongoClient
 app = Flask(__name__)
 from dotenv import dotenv_values
-# from flask_bcrypt import Bcrypt
+
 import bcrypt
 import re 
 # from flask_jwt_extended import JWTManager
 # from flask_jwt_extended import create_access_token
 
-# HOST = "3.35.139.196"
-# USERNAME = "test"
-# PASSWORD = "test"
 
+config = dotenv_values(".env")
 
-# config = dotenv_values(".env")
-# Bcrypt = bcrypt(app)
 app.config["JWT_SECRET_KEY"] = "team-six"
-# jwt = JWTManager(app)
 
-client = MongoClient("3.35.139.196",
-                  username="test",
-                 password="test")
 
-# config = dotenv_values(".env")
-# client = MongoClient(config['HOST'],
-#                   username=config['USERNAME'],
-#                  password=config['PASSWORD'])
+config = dotenv_values(".env")
+client = MongoClient(config['HOST'],
+                  username=config['USERNAME'],
+                 password=config['PASSWORD'])
+
 db = client.dbjungle
 headers = {'User-Agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36'}
 
