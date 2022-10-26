@@ -11,9 +11,9 @@ from dotenv import dotenv_values
 from pymongo import MongoClient
 import jwt
 import bcrypt
-
+from pymongo import MongoClient
 app = Flask(__name__)
-
+from pymongo import MongoClient
 import bcrypt
 import re
 
@@ -23,7 +23,7 @@ import re
 
 config = dotenv_values(".env")
 
-app.config["JWT_SECRET_KEY"] = "team-six"  
+app.config["JWT_SECRET_KEY"] = "team-six"
 
 
 config = dotenv_values(".env")
@@ -40,13 +40,13 @@ SECRET_KEY = 'jungle'
 
 def validate_token(token):
     try:
-        jwt.decode(token,SECRET_KEY,algorithms=['HS256'])
+        user_data = jwt.decode(token,SECRET_KEY,algorithms=['HS256'])
     except jwt.ExpiredSignatureError:
         return False
     except jwt.exceptions.DecodeError:
         return False
     else:
-        return True
+        return user_data['id']
         
 
 @app.route('/')
@@ -89,9 +89,23 @@ def post_signin():
 @app.route('/home')
 def homecoming():
     token_receive = request.cookies.get('mytoken')
-    is_valid = validate_token(token_receive)
-    if is_valid:
-        return render_template('home.html') 
+    uid = validate_token(token_receive)
+    partys, host_party, participant_party = [], [], []
+    if uid:
+        result = list(db.party.find({'state':'0'}))
+        print(result)
+        for r in result:
+            print(r)
+            if uid == r['host']:
+                host_party.append(r)
+            elif uid in r['participant']:
+                participant_party.append(r)
+            else:
+                partys.append(r)
+
+        print(host_party)
+        return render_template('home.html', partys = partys, host_party = host_party, participant_party = participant_party)
+        # return render_template('home.html') 
     else:
         return redirect('/')
 
@@ -146,11 +160,11 @@ def user_register():
     return jsonify({'result' : 'success'}) 
 
 # 모임 리스트 조회
-@app.route('/party', methods=['GET'])
-def party_create():
-    partys = list(db.party.find({}))
-    print(partys)
-    return render_template('home.html', partys = partys)
+# @app.route('/party', methods=['GET'])
+# def party_create():
+    # partys = list(db.party.find({}))
+    # print(partys)
+    # return render_template('home.html', partys = partys)
 
 # 모임 생성z
 @app.route('/party', methods=['POST'])
@@ -181,6 +195,7 @@ def party_delete():
     object_id = ObjectId(object_id_receive)
     print(object_id_receive)
 
+    
     db.party.deleteOne({'_id' : object_id})
     return jsonify({'result' : 'success'}) 
 
@@ -190,9 +205,10 @@ def party_delete():
 @app.route('/party/join', methods=['POST'])
 def party_join():
     cardid_receive = request.form['cardid_give'] 
-    userid_receive = request.form['userid_give'] 
+    token_receive = request.cookies.get('mytoken')
+    userid_receive = validate_token(token_receive)
+    
     object_id = ObjectId(cardid_receive)
-
     party_info = db.party.find_one({ '_id' : object_id })
    
     if party_info is None:
@@ -200,6 +216,7 @@ def party_join():
 
     state = int(party_info['state']) 
     participants = party_info['participant']
+
     current_num = len(party_info['participant'])
     max_num = int(party_info['people']) 
    
@@ -216,9 +233,11 @@ def party_join():
 
 @app.route('/party/cancel', methods=['POST'])
 def party_cancel():
-    # return jsonify({'result' : '모임에 참여할 수 없습니다.'}) 
+
     cardid_receive = request.form['cardid_give'] 
-    userid_receive = request.form['userid_give'] 
+    token_receive = request.cookies.get('mytoken')
+    userid_receive = validate_token(token_receive)
+    
     object_id = ObjectId(cardid_receive)
     party_info = db.party.find_one({ '_id' : object_id })
     state = int(party_info['state'])
