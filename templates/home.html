@@ -40,16 +40,17 @@
         },
         success: function (response) {
           if (response["result"] == "success") {
-           
+
             window.location.href = '/info';
           }
           else
             window.location.href = '/';
         }
-      })}
+      })
+    }
 
 
-      function joinParty(object_id ) {
+    function joinParty(object_id) {
       $.ajax({
         type: "POST",
         url: "/party/join",
@@ -237,7 +238,8 @@
               </button>
             </div>
             <a href="#">
-              <svg class="w-10 h-10 stroke-gray-700" fill="none" viewBox="0 0 24 24" onclick ="modifyInfo()" xmlns="http://www.w3.org/2000/svg">
+              <svg class="w-10 h-10 stroke-gray-700" fill="none" viewBox="0 0 24 24" onclick="modifyInfo()"
+                xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z">
                 </path>
@@ -299,167 +301,8 @@
                         </button>
                         {% endif %}
 
-                        <!-- Modal -->
-                        <div
-                          class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center"
-                          id="create-modal">
-                          <div class="relative w-auto my-6 mx-auto max-w-3xl">
-                            <!--content-->
-                            <div
-                              class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                              <!--header-->
-                              <div
-                                class="flex items-start justify-between p-4 border-b border-solid border-slate-200 rounded-t">
-                                <h3 class="text-xl font-semibold">
-                                  새로운 모임 생성하기
-                                </h3>
-                                <button
-                                  class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                                  onclick="toggleModal('create-modal')">
-                                  <span
-                                    class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                                    ×
-                                  </span>
-                                </button>
-                              </div>
-                              <!--body-->
-                              <form class="p-4 w-full max-w-lg">
-                                <div class="flex flex-wrap -mx-3 mb-6">
-                                  <div class="w-full px-3">
-                                    <label class="block uppercase tracking-wide text-gray-700 text-s font-bold mb-2"
-                                      for="party-title">
-                                      모임 이름
-                                    </label>
-                                    <input
-                                      class="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                      id="party-title" type="text">
-                                  </div>
-                                </div>
-                                <label class="block tracking-wide text-gray-700 text-s font-bold pl-1 mb-2">
-                                  메뉴
-                                </label>
-                                <div class="flex flex-wrap -mx-3 mb-6">
-                                  <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                      for="party-category">
-                                      카테고리
-                                    </label>
-                                    <div class="relative">
-                                      <select
-                                        class="block appearance-none w-full  border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                        id="party-category">
-                                        <option>한식</option>
-                                        <option>중식</option>
-                                        <option>일식</option>
-                                        <option>양식</option>
-                                      </select>
-                                      <div
-                                        class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                          viewBox="0 0 20 20">
-                                          <path
-                                            d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                                        </svg>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
-                                      for="party-menu">
-                                      메뉴명
-                                    </label>
-                                    <input
-                                      class="appearance-none block w-full  text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-                                      id="party-menu" type="text">
-                                  </div>
-                                </div>
-                                <div class="flex flex-wrap -mx-3 mb-6">
-                                  <div class="w-full px-3">
-                                    <label class="block uppercase tracking-wide text-gray-700 text-s font-bold mb-2"
-                                      for="party-store">
-                                      식당 이름
-                                    </label>
-                                    <input
-                                      class="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                      id="party-store" type="text">
-                                  </div>
-                                </div>
-                                <div class="flex flex-wrap -mx-3 mb-6">
-                                  <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                    <label class="block tracking-wide text-gray-700 text-s font-bold mb-2"
-                                      for="party-time">
-                                      시간
-                                    </label>
-                                    <div class="relative">
-                                      <input
-                                        class="block appearance-none w-full  border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                        id="party-time" type="time" min="0" max="24" placeholder="00">
-                                      <div
-                                        class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                          viewBox="0 0 20 20">
-                                          <path
-                                            d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                                        </svg>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
-                                    <label class="block uppercase tracking-wide text-gray-700 text-s font-bold mb-2"
-                                      for="party-people">
-                                      인원
-                                    </label>
-                                    <div class="relative">
-                                      <select
-                                        class="block appearance-none w-full  border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                        id="party-people">
-                                        <option>2</option>
-                                        <option>3</option>
-                                        <option>4</option>
-                                      </select>
-                                      <div
-                                        class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                        <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                          viewBox="0 0 20 20">
-                                          <path
-                                            d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                                        </svg>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="flex flex-wrap -mx-3 mb-6">
-                                  <div class="w-full px-3">
-                                    <label class="block uppercase tracking-wide text-gray-700 text-s font-bold mb-2"
-                                      for="party-place">
-                                      약속 장소
-                                    </label>
-                                    <input
-                                      class="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-                                      id="party-place" type="text">
-                                  </div>
-                                </div>
 
-                              </form>
-                              <!--footer-->
-                              <div
-                                class="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
-                                <button
-                                  class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                                  type="submit" onclick="createParty()">
-                                  확인
-                                </button>
-                                <button
-                                  class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                                  type="button" onclick="toggleModal('create-modal')">
-                                  취소
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
 
-                        <!-- Modal -->
 
                         <button onclick="deleteParty('{{host._id}}')"
                           class="bg-red-500 hover:bg-red-700 text-white text-xs font-bold mt-4 py-2 px-3 rounded">
@@ -513,7 +356,7 @@
                     <p class="text-2xl font-bold ml-2"> 참여 대기중인 모임</p>
                   </div>
                   {% for participant in participant_party %}
-                  {% if participant.state == '1' %}
+                  {% if participant.state == '0' %}
                   <div class="my-4 bg-green-100 rounded overflow-hidden shadow-lg">
                     {% else %}
                     <div class="my-4 bg-red-100 rounded overflow-hidden shadow-lg">
@@ -531,22 +374,22 @@
                         <p class="truncate ..."> 약속 시간 : {{participant.time}}</p>
                         <p class="truncate ..."> 약속 장소 : {{participant.place}}</p>
 
-<!--                       
+                        <!--                       
                       <li class="truncate ..." > 메뉴 : {{participant.category}} | {{participant.menu}} </li>
                       <li class="truncate ..."> 약속시간 : {{participant.hour}} : {{participant.minute}} </li>
                       <li class="truncate ..."> 약속장소 : {{participant.place}} </li>
                       <li class="truncate ..."> {{participant['participant']|length}} / {{participant.people}} </li> -->
-                      <!-- <li> {{participant.state}} </li> -->
-                    <!-- </ol> -->
-                    <button 
-                    onclick="cancelParty('{{participant._id}}') "
-                    class="bg-red-500 hover:bg-red-700 text-white font-bold mt-4 py-2 px-4 rounded">
-                      취소하기
-                    </button>
-                    {% endif %}
-                  </div>
-                </div>
-                {% endfor %}
+                        <!-- <li> {{participant.state}} </li> -->
+                        <!-- </ol> -->
+                        {% if participant.state == '0' %}
+                        <button onclick="cancelParty('{{participant._id}}') "
+                          class="bg-red-500 hover:bg-red-700 text-white font-bold mt-4 py-2 px-4 rounded">
+                          취소하기
+                        </button>
+                        {% endif %}
+                      </div>
+                    </div>
+                    {% endfor %}
 
                   </div>
                 </div>
