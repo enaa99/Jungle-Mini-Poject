@@ -40,16 +40,17 @@
         },
         success: function (response) {
           if (response["result"] == "success") {
-           
+
             window.location.href = '/info';
           }
           else
             window.location.href = '/';
         }
-      })}
+      })
+    }
 
 
-      function joinParty(object_id ) {
+    function joinParty(object_id) {
       $.ajax({
         type: "POST",
         url: "/party/join",
@@ -237,7 +238,8 @@
               </button>
             </div>
             <a href="#">
-              <svg class="w-10 h-10 stroke-gray-700" fill="none" viewBox="0 0 24 24" onclick ="modifyInfo()" xmlns="http://www.w3.org/2000/svg">
+              <svg class="w-10 h-10 stroke-gray-700" fill="none" viewBox="0 0 24 24" onclick="modifyInfo()"
+                xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z">
                 </path>
@@ -354,7 +356,7 @@
                     <p class="text-2xl font-bold ml-2"> 참여 대기중인 모임</p>
                   </div>
                   {% for participant in participant_party %}
-                  {% if participant.state == '1' %}
+                  {% if participant.state == '0' %}
                   <div class="my-4 bg-green-100 rounded overflow-hidden shadow-lg">
                     {% else %}
                     <div class="my-4 bg-red-100 rounded overflow-hidden shadow-lg">
@@ -372,22 +374,22 @@
                         <p class="truncate ..."> 약속 시간 : {{participant.time}}</p>
                         <p class="truncate ..."> 약속 장소 : {{participant.place}}</p>
 
-<!--                       
+                        <!--                       
                       <li class="truncate ..." > 메뉴 : {{participant.category}} | {{participant.menu}} </li>
                       <li class="truncate ..."> 약속시간 : {{participant.hour}} : {{participant.minute}} </li>
                       <li class="truncate ..."> 약속장소 : {{participant.place}} </li>
                       <li class="truncate ..."> {{participant['participant']|length}} / {{participant.people}} </li> -->
-                      <!-- <li> {{participant.state}} </li> -->
-                    <!-- </ol> -->
-                    <button 
-                    onclick="cancelParty('{{participant._id}}') "
-                    class="bg-red-500 hover:bg-red-700 text-white font-bold mt-4 py-2 px-4 rounded">
-                      취소하기
-                    </button>
-                    {% endif %}
-                  </div>
-                </div>
-                {% endfor %}
+                        <!-- <li> {{participant.state}} </li> -->
+                        <!-- </ol> -->
+                        {% if participant.state == '0' %}
+                        <button onclick="cancelParty('{{participant._id}}') "
+                          class="bg-red-500 hover:bg-red-700 text-white font-bold mt-4 py-2 px-4 rounded">
+                          취소하기
+                        </button>
+                        {% endif %}
+                      </div>
+                    </div>
+                    {% endfor %}
 
                   </div>
                 </div>
