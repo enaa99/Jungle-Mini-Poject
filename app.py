@@ -11,9 +11,9 @@ from dotenv import dotenv_values
 from pymongo import MongoClient
 import jwt
 import bcrypt
-from pymongo import MongoClient
+
 app = Flask(__name__)
-from pymongo import MongoClient
+
 import bcrypt
 import re
 
@@ -23,7 +23,7 @@ import re
 
 config = dotenv_values(".env")
 
-app.config["JWT_SECRET_KEY"] = "team-six"
+app.config["JWT_SECRET_KEY"] = "team-six"  
 
 
 config = dotenv_values(".env")
@@ -181,7 +181,6 @@ def party_delete():
     object_id = ObjectId(object_id_receive)
     print(object_id_receive)
 
-    
     db.party.deleteOne({'_id' : object_id})
     return jsonify({'result' : 'success'}) 
 
@@ -201,7 +200,6 @@ def party_join():
 
     state = int(party_info['state']) 
     participants = party_info['participant']
-    print(participants)
     current_num = len(party_info['participant'])
     max_num = int(party_info['people']) 
    
