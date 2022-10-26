@@ -166,7 +166,7 @@ def user_register():
     # print(partys)
     # return render_template('home.html', partys = partys)
 
-# 모임 생성z
+# 모임 생성
 @app.route('/party', methods=['POST'])
 def party_register():
     token_receive = request.cookies.get('mytoken')
@@ -180,16 +180,14 @@ def party_register():
     store_receive = request.form['store_give']  
     category_receive = request.form['category_give'] 
     menu_receive = request.form['menu_give']
-    hour_receive = request.form['hour_give'] 
-    minute_receive = request.form['minute_give'] 
+    time_receive = request.form['time_give'] 
     place_receive = request.form['place_give']
     people_receive = request.form['people_give']  
-    state_receive = request.form['state_give']
     participant = [host_receive]
-    print(host_receive, title_receive, store_receive, category_receive, menu_receive, place_receive, people_receive, state_receive, participant)
+    print(host_receive, title_receive, store_receive, category_receive, menu_receive, place_receive, people_receive, participant)
 
     party_data = {'host': host_receive, 'title': title_receive, 'store': store_receive, 'category': category_receive,
-                  'menu': menu_receive, 'hour': hour_receive, 'minute': minute_receive, 'place': place_receive, 'people': people_receive, 'state': state_receive, 'participant': participant}
+                  'menu': menu_receive, 'time':time_receive, 'place': place_receive, 'people': people_receive, 'state': '0', 'participant': participant}
     db.party.insert_one(party_data)
     return jsonify({'result' : 'success'}) 
 
