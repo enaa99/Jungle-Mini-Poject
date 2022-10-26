@@ -113,6 +113,17 @@ def homecoming():
 def user_signup():
    return render_template('register.html') 
 
+@app.route('/auth/checkdup', methods=['POST'])
+def check_duplication():
+    id_receive = request.form['id_give']
+    duplicate_check = db.user.find_one({'id':id_receive})
+
+    if duplicate_check is None:
+        return jsonify({'result' : 'success'})
+    else:
+        return jsonify({'result' : '중복된 아이디 입니다.'})
+
+
 @app.route('/auth/signup', methods=['POST'])
 def user_register():
    #get user information
@@ -124,16 +135,18 @@ def user_register():
     class_receive = request.form['radio_give']
     print(id_receive, password_receive, confirm_password_receive, name_receive, email_receive, class_receive)
 
-   #data validation check    
+   #data validation check    ´
     if not id_receive or not password_receive or not name_receive or not email_receive or not class_receive:
       return jsonify({'result' : '하나 이상의 데이터가 입력되지 않았습니다.'})
 
    #id duplication check
     duplicate_check = db.user.find_one({'id':id_receive})
-    print(duplicate_check)
+
     if duplicate_check is not None:
         return jsonify({'result' : '아이디가 중복되었습니다!'})
  
+    if len(id_receive) < 2:
+        return jsonify({'result' :'아이디는 2자 이상으로 입력하세요.'}) 
      #confirm password
     if password_receive != confirm_password_receive:
          return jsonify({'result' :'비밀번호가 동일하지 않습니다.'})
@@ -146,6 +159,7 @@ def user_register():
     elif re.search('[a-zA-Z]+', password_receive) is None:
         return jsonify({'result' : '비밀번호에 1개 이상의 영문 대소문자를 포함해주세요.'})
     elif re.search('[`~!@#$%^&*(),<.>/?]+',password_receive) is None:
+    
         return jsonify({'result' : '비밀번호에 1개 이상의 특수문자를 포함해주세요.'})
 
 
@@ -174,7 +188,7 @@ def party_register():
         return jsonify({'result' : 'failed'}) 
     
    #get user information
-    host_receive = request.form['host_give']
+    host_receive = uid
     title_receive = request.form['title_give']  
     store_receive = request.form['store_give']  
     category_receive = request.form['category_give'] 
