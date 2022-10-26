@@ -21,6 +21,7 @@
           cardid_give: object_id,
         },
         success: function (response) {
+          console.log(response)
           if (response["result"] == "success") {
             alert('취소 완료');
           } else {
@@ -31,25 +32,6 @@
       });
     }
 
-
-    function modifyInfo() {
-      $.ajax({
-        type: "GET",
-        url: "/auth/modify",
-        data: {
-        },
-        success: function (response) {
-          if (response["result"] == "success") {
-
-            window.location.href = '/info';
-          }
-          else
-            window.location.href = '/';
-        }
-      })
-    }
-
-
     function joinParty(object_id) {
       $.ajax({
         type: "POST",
@@ -58,6 +40,7 @@
           cardid_give: object_id,
         },
         success: function (response) {
+          console.log(response)
           if (response["result"] == "success") {
             alert('참여 완료');
 
@@ -70,6 +53,7 @@
     }
 
     function confirmParty(object_id) {
+      console.log(object_id)
       $.ajax({
         type: "PATCH",
         url: "/party",
@@ -77,6 +61,7 @@
           object_id_give: object_id,
         },
         success: function (response) {
+          console.log(response)
           if (response["result"] == "success") {
             alert('확정 완료');
           }
@@ -90,6 +75,7 @@
     }
 
     function deleteParty(object_id) {
+      console.log(object_id)
       $.ajax({
         type: "DELETE",
         url: "/party",
@@ -97,6 +83,7 @@
           object_id_give: object_id,
         },
         success: function (response) {
+          console.log(response)
           if (response["result"] == "success") {
             alert(response['result']);
           }
@@ -234,12 +221,11 @@
             <div class="pr-4">
               <button onclick="signOut()"
                 class="bg-transparent hover:bg-black-500 text-black-700 font-semibold hover:text-white py-2 px-4 border border-black-500 hover:border-transparent rounded">
-                로그 아웃
+                logout
               </button>
             </div>
             <a href="#">
-              <svg class="w-10 h-10 stroke-gray-700" fill="none" viewBox="0 0 24 24" onclick="modifyInfo()"
-                xmlns="http://www.w3.org/2000/svg">
+              <svg class="w-10 h-10 stroke-gray-700" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                   d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z">
                 </path>
@@ -269,7 +255,7 @@
                   <p class="text-2xl font-bold ml-2"> 내가 만든 모임</p>
                 </div>
                 {% for host in host_party %}
-                {% if host.state == '0' %}
+                {% if host.state == '1' %}
                 <div class="my-4 bg-green-100 rounded overflow-hidden shadow-lg">
                   {% else %}
                   <div class="my-4 bg-red-100 rounded overflow-hidden shadow-lg">
@@ -356,7 +342,7 @@
                     <p class="text-2xl font-bold ml-2"> 참여 대기중인 모임</p>
                   </div>
                   {% for participant in participant_party %}
-                  {% if participant.state == '0' %}
+                  {% if participant.state == '1' %}
                   <div class="my-4 bg-green-100 rounded overflow-hidden shadow-lg">
                     {% else %}
                     <div class="my-4 bg-red-100 rounded overflow-hidden shadow-lg">
@@ -647,13 +633,13 @@
                         d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
                       </path>
                     </svg> <a class="truncate ...">{{party.people}}</a> </li>
-                  <!--<li class="flex justify-start"><svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor"
+                  <li class="flex justify-start"><svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor"
                       viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z">
                       </path>
-                    </svg> <a class="truncate ...">{{party.state}}</a> </li> -->
-                  <!-- <li class="truncate ..."> <a> 호스트 : {{party.host}}</a> </li> -->
+                    </svg> <a class="truncate ...">{{party.state}}</a> </li>
+                  <li class="truncate ..."> <a> 호스트 : {{party.host}}</a> </li>
                 </ul>
                 <button onclick="joinParty('{{party._id}}')"
                   class="bg-blue-500 hover:bg-blue-700 text-white font-bold mt-4 py-2 px-4 rounded">
