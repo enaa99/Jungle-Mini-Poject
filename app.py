@@ -94,9 +94,7 @@ def homecoming():
         return redirect('/')
     
     result = list(db.party.find({}))
-    print(result)
     for r in result:
-        print(r)
         if uid == r['host']:
             host_party.append(r)
         elif uid in r['participant']:
@@ -104,7 +102,8 @@ def homecoming():
         elif r['state'] == 0:
             partys.append(r)
 
-        print(host_party)
+    print('11111')
+    print(partys)
     return render_template('home.html', partys = partys, host_party = host_party, participant_party = participant_party)
         # return render_template('home.html') 
    

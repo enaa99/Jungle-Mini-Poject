@@ -56,6 +56,7 @@
             alert(response["result"]);
           }
           
+
           window.location.href = '/home';
         }
       });
@@ -280,7 +281,7 @@
                 {% for participant in participant_party %}
                 <div class="my-4 rounded overflow-hidden shadow-lg">
                   <div class="px-6 py-4">
-                    <div class="font-bold text-xl mb-2">{{host.title}}</div>
+                    <div class="font-bold text-xl mb-2">{{participant.title}}</div>
                     <ul class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-5">
                       <li class="grid grid-cols-1 "><svg class="w-6 h-6" fill="none" stroke="currentColor"
                           viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -289,7 +290,7 @@
                           </path>
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                        </svg> {{host.store}} </li>
+                        </svg> {{participant.store}} </li>
                       <li> (이건 지울 예정!) 호스트 : {{participant.host}} </li>
                       <li> {{participant.category}} | {{participant.menu}} </li>
                       <li> {{participant.time}} </li>
