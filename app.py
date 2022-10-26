@@ -169,7 +169,6 @@ def user_register():
     elif re.search('[a-zA-Z]+', password_receive) is None:
         return jsonify({'result' : '비밀번호에 1개 이상의 영문 대소문자를 포함해주세요.'})
     elif re.search('[`~!@#$%^&*(),<.>/?]+',password_receive) is None:
-    
         return jsonify({'result' : '비밀번호에 1개 이상의 특수문자를 포함해주세요.'})
 
 
@@ -244,8 +243,6 @@ def user_modify():
     
         return jsonify({'result' : '비밀번호에 1개 이상의 특수문자를 포함해주세요.'})
 
-    if class_receive == '0':
-        return jsonify({'result' : '반을 선택해 주세요.'}) 
     #password hasing  
     pw_hash = bcrypt.hashpw(password_receive.encode("utf-8"), bcrypt.gensalt())
     print('333')
