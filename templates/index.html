@@ -58,15 +58,12 @@
       let uid = $("#myId").val();
       let upwd = $("#myPwd").val();
 
-      console.log(upwd);
       $.ajax({
         type: "POST",
         url: "/auth/signin",
         data: { uid: uid, pwd: upwd },
         success: function (response) {
-          console.log(response);
           let access_token = response["token"];
-          console.log(access_token);
           if (response["result"] == "success") {
             $.cookie("mytoken", response["token"], { path: "/" });
             window.location.replace("/home");

@@ -20,7 +20,6 @@
           cardid_give: object_id,
         },
         success: function (response) {
-          console.log(response)
           if (response["result"] == "success") {
             alert('취소 완료');
           } else {
@@ -38,7 +37,6 @@
         data: {
         },
         success: function (response) {
-          console.log(response)
           if (response["result"] == "success") {
            
             window.location.href = '/info';
@@ -57,7 +55,6 @@
           cardid_give: object_id,
         },
         success: function (response) {
-          console.log(response)
           if (response["result"] == "success") {
             alert('참여 완료');
      
@@ -70,7 +67,6 @@
     }
 
     function confirmParty(object_id) {
-      console.log(object_id)
       $.ajax({
         type: "PATCH",
         url: "/party",
@@ -78,7 +74,6 @@
           object_id_give: object_id,
         },
         success: function (response) {
-          console.log(response)
           if (response["result"] == "success") {
             alert('확정 완료');
           }
@@ -92,7 +87,6 @@
     }
   
     function deleteParty(object_id) {
-      console.log(object_id)
       $.ajax({
         type: "DELETE",
         url: "/party",
@@ -100,7 +94,6 @@
           object_id_give: object_id,
         },
         success: function (response) {
-          console.log(response)
           if (response["result"] == "success") {
             alert(response['result']);
           }
@@ -228,7 +221,7 @@
             <div class="pr-4">
               <button onclick="signOut()"
                 class="bg-transparent hover:bg-black-500 text-black-700 font-semibold hover:text-white py-2 px-4 border border-black-500 hover:border-transparent rounded">
-                logout
+                로그 아웃
               </button>
             </div>
             <a href="#">
