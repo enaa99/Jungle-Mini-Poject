@@ -104,7 +104,8 @@ def homecoming():
     if uid == False :
         return redirect('/')
     
-    result = list(db.party.find({}))
+    result = list(db.party.find({}).sort('time'))
+
     for data in result:
         if uid == data['host']:
             h_participants = []
