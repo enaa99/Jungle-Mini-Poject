@@ -245,9 +245,10 @@ def party_join():
         return jsonify({'result':'failed'})
     
     cardid_receive = request.form['cardid_give'] 
-    userid_receive = request.form['userid_give'] 
+    token_receive = request.cookies.get('mytoken')
+    userid_receive = validate_token(token_receive)
+    
     object_id = ObjectId(cardid_receive)
-
     party_info = db.party.find_one({ '_id' : object_id })
    
     if party_info is None:
@@ -255,7 +256,7 @@ def party_join():
 
     state = int(party_info['state']) 
     participants = party_info['participant']
-    print(participants)
+
     current_num = len(party_info['participant'])
     max_num = int(party_info['people']) 
    
@@ -279,7 +280,9 @@ def party_cancel():
     
     # return jsonify({'result' : '모임에 참여할 수 없습니다.'}) 
     cardid_receive = request.form['cardid_give'] 
-    userid_receive = request.form['userid_give'] 
+    token_receive = request.cookies.get('mytoken')
+    userid_receive = validate_token(token_receive)
+    
     object_id = ObjectId(cardid_receive)
     party_info = db.party.find_one({ '_id' : object_id })
     state = int(party_info['state'])
@@ -296,6 +299,7 @@ def party_cancel():
     if state == 1:
         db.party.update_one( { "_id" : object_id }, { "$set": { "state" : "0" } } );
     return jsonify({'result' : 'success'}) 
+
 
 if __name__ == '__main__':
    app.run('0.0.0.0',port=5000,debug=True)

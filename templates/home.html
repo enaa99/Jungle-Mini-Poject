@@ -14,12 +14,28 @@
   <script type="text/javascript"
     src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
-  <script>
-    function joinParty(object_id) {
-      // object_id = "6357e7f9c058107b859a3214"
+    <script>
+      function cancelParty(object_id ) {
+      $.ajax({
+        type: "POST",
+        url: "/party/cancel",
+        data: {
+          cardid_give: object_id,
+        },
+        success: function (response) {
+          console.log(response)
+          if (response["result"] == "success") {
+            alert('취소 완료');
+            window.location.href = '/home';
+          } else {
+            alert(response["result"]);
+            window.location.href = '/home';
+          }
+        }
+      });
+    }
 
-      // joinParty(test, 6357e7f9c058107b859a3214)
-      console.log(object_id)
+      function joinParty(object_id ) {
       $.ajax({
         type: "POST",
         url: "/party/join",
@@ -54,6 +70,7 @@
           }
           else {
             alert(response["result"]);
+            window.location.href = '/home';
           }
           
 
@@ -246,7 +263,7 @@
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
                         </svg> {{host.store}} </li>
-                      <li> (이건 지울 예정!) 호스트 : {{host.host}} </li>
+                      <!-- <li> (이건 지울 예정!) 호스트 : {{host.host}} </li> -->
                       <li> {{host.category}} | {{host.menu}} </li>
                       <li> {{host.time}} </li>
                       <li> {{host.place}} </li>
@@ -280,26 +297,37 @@
                 </div>
                 {% for participant in participant_party %}
                 <div class="my-4 rounded overflow-hidden shadow-lg">
-                  <div class="px-6 py-4">
-                    <div class="font-bold text-xl mb-2">{{participant.title}}</div>
-                    <ul class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-5">
-                      <li class="grid grid-cols-1 "><svg class="w-6 h-6" fill="none" stroke="currentColor"
-                          viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  <div class="px-6 py-4 ">
+                    <p class="font-bold text-xl mb-2 truncate ...">{{participant.title}}</p>
+
+
+                
+                    <!--  -->
+                    <!-- <ol class="grid grid-cols-6sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-5"> -->
+                      <!-- <ol class=""></ol> -->
+                      <!-- <li class="grid grid-cols-1 "><svg class="w-6 h-6" fill="none" stroke="currentColor"
+                          viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"> -->
+                          <!-- <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
                           </path>
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                        </svg> {{participant.store}} </li>
-                      <li> (이건 지울 예정!) 호스트 : {{participant.host}} </li>
-                      <li> {{participant.category}} | {{participant.menu}} </li>
-                      <li> {{participant.time}} </li>
-                      <li> {{participant.place}} </li>
-                      <li> {{participant.people}} </li>
-                      <li> {{participant.state}} </li>
-                    </ul>
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold mt-4 py-2 px-4 rounded">
-                      참여하기
+                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path> -->
+                        <!-- </svg> {{participant.store}} </li> -->
+                      <!-- <li> (이건 지울 예정!) 호스트 : {{participant.host}} </li> -->
+                      <p class="truncate ..." > 메뉴 : {{participant.category}} | {{participant.menu}} </p>
+                      <p class="truncate ..."> 약속시간 : {{participant.time}}( {{participant['participant']|length}} / {{participant.people}}  ) </p>
+
+<!--                       
+                      <li class="truncate ..." > 메뉴 : {{participant.category}} | {{participant.menu}} </li>
+                      <li class="truncate ..."> 약속시간 : {{participant.hour}} : {{participant.minute}} </li>
+                      <li class="truncate ..."> 약속장소 : {{participant.place}} </li>
+                      <li class="truncate ..."> {{participant['participant']|length}} / {{participant.people}} </li> -->
+                      <!-- <li> {{participant.state}} </li> -->
+                    <!-- </ol> -->
+                    <button 
+                    onclick="cancelParty('{{participant._id}}') "
+                    class="bg-red-500 hover:bg-red-700 text-white font-bold mt-4 py-2 px-4 rounded">
+                      취소하기
                     </button>
                   </div>
                 </div>
@@ -497,7 +525,7 @@
                 {% endif %}
               </div>
               <div class="px-6 py-4">
-                <div class="font-bold text-xl mb-2">{{party.title}}</div>
+                <div class="font-bold text-xl mb-2 truncate ...">{{party.title}}</div>
                 <ul class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-5">
                   <li class="flex justify-start">
                     <svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -506,39 +534,41 @@
                         d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                    </svg> <a>{{party.store}}</a>
+                    </svg> <a class="truncate ...">{{party.store}}</a>
                   </li>
                   <li class="flex justify-start"> <svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor"
                       viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
                       </path>
-                    </svg> <a> {{party.category}} | {{party.menu}}</a> </li>
+                    </svg> <a class="truncate ..."> {{party.category}} | {{party.menu}}</a> </li>
                   <li class="flex justify-start"> <svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor"
                       viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg> <a>{{party.time}}</a> </li>
+                    </svg> <a class="truncate ...">{{party.time}} </a> </li>
                   <li class="flex justify-start"><svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor"
                       viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
                       </path>
-                    </svg> <a>{{party.place}}</a> </li>
+                    </svg> <a class="truncate ...">{{party.place}}</a> </li>
                   <li class="flex justify-start"> <svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor"
                       viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
                       </path>
-                    </svg> <a>{{party.people}}</a> </li>
+                    </svg> <a class="truncate ...">{{party.people}}</a> </li>
                   <li class="flex justify-start"><svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor"
                       viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z">
                       </path>
-                    </svg> <a>{{party.state}}</a> </li>
-                  <li class="flex justify-start"> <a>(이건 지울 예정!) 호스트 : {{party.host}}</a> </li>
+                    </svg> <a class="truncate ...">{{party.state}}</a> </li>
+                  <li class="truncate ..."> <a> 호스트 : {{party.host}}</a> </li>
                 </ul>
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold mt-4 py-2 px-4 rounded">
+                <button 
+                onclick="joinParty('{{party._id}}')"
+                class="bg-blue-500 hover:bg-blue-700 text-white font-bold mt-4 py-2 px-4 rounded">
                   참여하기
                 </button>
               </div>
