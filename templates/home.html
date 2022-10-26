@@ -54,35 +54,47 @@
         }
       });
     }
+    function createParty() {
 
-    function showTooltip(flag) {
-  switch (flag) {
-    case 1:
-      document.getElementById("tooltip1").classList.remove("hidden");
-      break;
-    case 2:
-      document.getElementById("tooltip2").classList.remove("hidden");
-      break;
-    case 3:
-      document.getElementById("tooltip3").classList.remove("hidden");
-      break;
-  }
-}
-function hideTooltip(flag) {
-  switch (flag) {
-    case 1:
-      document.getElementById("tooltip1").classList.add("hidden");
-      break;
-    case 2:
-      document.getElementById("tooltip2").classList.add("hidden");
-      break;
-    case 3:
-      document.getElementById("tooltip3").classList.add("hidden");
-      break;
-  }
-}
+      let title = $('#party-title').val();
+      let category = $('#party-category').val();
+      let menu = $('#party-menu').val();
+      let store = $('#party-store').val();
+      let time = $('#party-time').val();
+      let people = $('#party-people').val();
+      let place = $('#party-place').val();
+      console.log(title, category, menu, store, time, people, place)
 
+      $.ajax({
+        type: "POST",
+        url: "/party",
+        data: {
+          title_give: title,
+          category_give: category,
+          menu_give: menu,
+          store_give: store,
+          time_give: time,
+          people_give: people,
+          place_give: place
+        },
+        success: function (response) {
+          console.log(response)
+          if (response["result"] == "success") {
+            alert('새로운 모임 생성 완료');
+            window.location.href = '/home';
+          } else {
+            alert(response["result"]);
+          }
+        }
+      });
+    }
 
+    function toggleModal(modalID) {
+      document.getElementById(modalID).classList.toggle("hidden");
+      document.getElementById(modalID + "-backdrop").classList.toggle("hidden");
+      document.getElementById(modalID).classList.toggle("flex");
+      document.getElementById(modalID + "-backdrop").classList.toggle("flex");
+    }
   </script>
   <!-- Google Font -->
   <!-- <link
@@ -206,7 +218,7 @@ function hideTooltip(flag) {
                         </svg> {{host.store}} </li>
                       <!-- <li> (이건 지울 예정!) 호스트 : {{host.host}} </li> -->
                       <li> {{host.category}} | {{host.menu}} </li>
-                      <li> {{host.hour}} : {{host.minute}} </li>
+                      <li> {{host.time}} </li>
                       <li> {{host.place}} </li>
                       <li> {{host.people}} </li>
                       <li> {{host.state}} </li>
@@ -217,8 +229,8 @@ function hideTooltip(flag) {
                 {% endfor %}
               </div>
               <!-- participant sidebar -->
-              <div class="basis-1/2 ">
-                <div class="mt-8 flex justify-center">
+              <div class="basis-1/2">
+                <div class="mt-8 mb-4 flex justify-center">
                   <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -247,7 +259,7 @@ function hideTooltip(flag) {
                         <!-- </svg> {{participant.store}} </li> -->
                       <!-- <li> (이건 지울 예정!) 호스트 : {{participant.host}} </li> -->
                       <p class="truncate ..." > 메뉴 : {{participant.category}} | {{participant.menu}} </p>
-                      <p class="truncate ..."> 약속시간 : {{participant.hour}} : {{participant.minute}} ( {{participant['participant']|length}} / {{participant.people}}  ) </p>
+                      <p class="truncate ..."> 약속시간 : {{participant.time}}( {{participant['participant']|length}} / {{participant.people}}  ) </p>
 
 <!--                       
                       <li class="truncate ..." > 메뉴 : {{participant.category}} | {{participant.menu}} </li>
@@ -275,7 +287,168 @@ function hideTooltip(flag) {
     <div class="bg-gray-900 opacity-50 hidden fixed inset-0 z-10" id="sidebarBackdrop"></div>
     <main>
       <div id="main-content" class="h-full w-5/6 bg-gray-50 relative overflow-y-auto lg:ml-64">
-        <div class="w-5/6 px-4">
+        <div class="w-5/6 py-4 px-4">
+          <div class="flex justify-end">
+            <button
+              class="flex justify-center bg-lime-500 text-white active:bg-lime-600 font-bold text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+              type="button" onclick="toggleModal('modal-id')">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg> <a class="pt-1 pl-2"> 새로운 모임 생성하기 </a>
+            </button>
+            <div
+              class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center"
+              id="modal-id">
+              <div class="relative w-auto my-6 mx-auto max-w-3xl">
+                <!--content-->
+                <div
+                  class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                  <!--header-->
+                  <div class="flex items-start justify-between p-4 border-b border-solid border-slate-200 rounded-t">
+                    <h3 class="text-xl font-semibold">
+                      새로운 모임 생성하기
+                    </h3>
+                    <button
+                      class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                      onclick="toggleModal('modal-id')">
+                      <span
+                        class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                        ×
+                      </span>
+                    </button>
+                  </div>
+                  <!--body-->
+                  <form class="p-4 w-full max-w-lg">
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                      <div class="w-full px-3">
+                        <label class="block uppercase tracking-wide text-gray-700 text-s font-bold mb-2"
+                          for="party-title">
+                          모임 이름
+                        </label>
+                        <input
+                          class="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                          id="party-title" type="text">
+                      </div>
+                    </div>
+                    <label class="block tracking-wide text-gray-700 text-s font-bold pl-1 mb-2">
+                      메뉴
+                    </label>
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                      <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                          for="party-category">
+                          카테고리
+                        </label>
+                        <div class="relative">
+                          <select
+                            class="block appearance-none w-full  border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            id="party-category">
+                            <option>한식</option>
+                            <option>중식</option>
+                            <option>일식</option>
+                            <option>양식</option>
+                          </select>
+                          <div
+                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                          for="party-menu">
+                          메뉴명
+                        </label>
+                        <input
+                          class="appearance-none block w-full  text-gray-700 border border-red-500 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                          id="party-menu" type="text">
+                      </div>
+                    </div>
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                      <div class="w-full px-3">
+                        <label class="block uppercase tracking-wide text-gray-700 text-s font-bold mb-2"
+                          for="party-store">
+                          식당 이름
+                        </label>
+                        <input
+                          class="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                          id="party-store" type="text">
+                      </div>
+                    </div>
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                      <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                        <label class="block tracking-wide text-gray-700 text-s font-bold mb-2" for="party-time">
+                          시간
+                        </label>
+                        <div class="relative">
+                          <input
+                            class="block appearance-none w-full  border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            id="party-time" type="time" min="0" max="24" placeholder="00">
+                          <div
+                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                        <label class="block uppercase tracking-wide text-gray-700 text-s font-bold mb-2"
+                          for="party-people">
+                          인원
+                        </label>
+                        <div class="relative">
+                          <select
+                            class="block appearance-none w-full  border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            id="party-people">
+                            <option>2</option>
+                            <option>3</option>
+                            <option>4</option>
+                          </select>
+                          <div
+                            class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="flex flex-wrap -mx-3 mb-6">
+                      <div class="w-full px-3">
+                        <label class="block uppercase tracking-wide text-gray-700 text-s font-bold mb-2"
+                          for="party-place">
+                          약속 장소
+                        </label>
+                        <input
+                          class="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                          id="party-place" type="text">
+                      </div>
+                    </div>
+
+                  </form>
+                  <!--footer-->
+                  <div class="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                    <button
+                      class="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                      type="submit" onclick="createParty()">
+                      확인
+                    </button>
+                    <button
+                      class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                      type="button" onclick="toggleModal('modal-id')">
+                      취소
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="modal-id-backdrop"></div>
+          </div>
           <!-- cards -->
           <div class="p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-5">
             {% for party in partys %}
@@ -316,7 +489,7 @@ function hideTooltip(flag) {
                       viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg> <a class="truncate ...">{{party.hour}} : {{party.minute}}</a> </li>
+                    </svg> <a class="truncate ...">{{party.time}} </a> </li>
                   <li class="flex justify-start"><svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor"
                       viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -335,7 +508,7 @@ function hideTooltip(flag) {
                         d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z">
                       </path>
                     </svg> <a class="truncate ...">{{party.state}}</a> </li>
-                  <li class="truncate ..."> <a> 호스트 : {{party.host}}dddd</a> </li>
+                  <li class="truncate ..."> <a> 호스트 : {{party.host}}</a> </li>
                 </ul>
                 <button 
                 onclick="joinParty('{{party._id}}')"
