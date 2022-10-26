@@ -1,14 +1,16 @@
-    # cardid_receive = request.form['cardid_give'] 
-    # userid_receive = request.form['userid_give'] 
-    # object_id = ObjectId(cardid_receive)
-    # party_info = db.party.find_one({ '_id' : object_id })
-    # state = int(party_info['state'])
-
-    # if party_info is None:
-    #     return jsonify({'result' : '해당 모임이 없습니다'})
-        
-    # participants = party_info['participant']
-
-    # if userid_receive not in participants:
-    #     return jsonify({'result' : '해당 참가자가 없습니다'})
+    token_receive = request.cookies.get('mytoken')
+    uid = validate_token(token_receive)
+    partys, host_party, participant_party = [], [], []
+    if uid == False :
+        return redirect('/')
     
+    result = list(db.party.find({}))
+    for r in result:
+        if uid == r['host']:
+            host_party.append(r)
+        elif uid in r['participant']:
+            participant_party.append(r)
+        elif r['state'] == '0':
+            partys.append(r)
+
+    return render_template('home.html', partys = partys, host_party = host_party, participant_party = participant_party)
