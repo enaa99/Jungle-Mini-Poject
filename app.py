@@ -40,15 +40,13 @@ SECRET_KEY = 'jungle'
 
 def validate_token(token):
     try:
-        decoding = jwt.decode(token,SECRET_KEY,algorithms=['HS256'])
-        print('aaaaaaaaaa')
-        print(decoding)
+        user_data = jwt.decode(token,SECRET_KEY,algorithms=['HS256'])
     except jwt.ExpiredSignatureError:
         return False
     except jwt.exceptions.DecodeError:
         return False
     else:
-        return True
+        return user_data['id']
         
 
 @app.route('/')
@@ -91,9 +89,23 @@ def post_signin():
 @app.route('/home')
 def homecoming():
     token_receive = request.cookies.get('mytoken')
-    is_valid = validate_token(token_receive)
-    if is_valid:
-        return render_template('home.html') 
+    uid = validate_token(token_receive)
+    partys, host_party, participant_party = [], [], []
+    if uid:
+        result = list(db.party.find({'state':'0'}))
+        print(result)
+        for r in result:
+            print(r)
+            if uid == r['host']:
+                host_party.append(r)
+            elif uid in r['participant']:
+                participant_party.append(r)
+            else:
+                partys.append(r)
+
+        print(host_party)
+        return render_template('home.html', partys = partys, host_party = host_party, participant_party = participant_party)
+        # return render_template('home.html') 
     else:
         return redirect('/')
 
@@ -148,13 +160,13 @@ def user_register():
     return jsonify({'result' : 'success'}) 
 
 # 모임 리스트 조회
-@app.route('/party', methods=['GET'])
-def party_create():
-    partys = list(db.party.find({}))
-    print(partys)
-    return render_template('home.html', partys = partys)
+# @app.route('/party', methods=['GET'])
+# def party_create():
+    # partys = list(db.party.find({}))
+    # print(partys)
+    # return render_template('home.html', partys = partys)
 
-# 모임 생성
+# 모임 생성z
 @app.route('/party', methods=['POST'])
 def party_register():
    #get user information
@@ -182,6 +194,8 @@ def party_delete():
     object_id_receive = request.form['object_id_give']
     object_id = ObjectId(object_id_receive)
     print(object_id_receive)
+
+    
     db.party.deleteOne({'_id' : object_id})
     return jsonify({'result' : 'success'}) 
 
@@ -206,11 +220,12 @@ def party_join():
         return jsonify({'result' : '해당 모임이 없습니다'})
 
     state = int(party_info['state']) 
-    participant = party_info['participant']
+    participants = party_info['participant']
+    print(participants)
     current_num = len(party_info['participant'])
     max_num = int(party_info['people']) 
    
-    if state == 0 and current_num < max_num and userid_receive not in participant:
+    if state == 0 and current_num < max_num and userid_receive not in participants:
         db.party.update_one( { "_id" : object_id }, { "$push": { "participant" : userid_receive } } );
         after_push = db.party.find_one({ '_id' : object_id })
         current_num = len(after_push['participant'])
@@ -221,19 +236,27 @@ def party_join():
         return jsonify({'result' : '모임에 참여할 수 없습니다.'}) 
 
 
-
-
-    # object_id_receive = request.form['object_id_give']
-    # object_id = ObjectId(object_id_receive)
-    # print(object_id_receive)
-    # db.party.deleteOne({'_id' : object_id})
-    # return jsonify({'result' : 'success'}) 
-
-    
-@app.route('/party/cancel' , methods = ['PUT'])
+@app.route('/party/cancel', methods=['POST'])
 def party_cancel():
-    return jsonify({'result' : 'success'})  
+    # return jsonify({'result' : '모임에 참여할 수 없습니다.'}) 
+    cardid_receive = request.form['cardid_give'] 
+    userid_receive = request.form['userid_give'] 
+    object_id = ObjectId(cardid_receive)
+    party_info = db.party.find_one({ '_id' : object_id })
+    state = int(party_info['state'])
 
+    if party_info is None:
+        return jsonify({'result' : '해당 모임이 없습니다'})
+        
+    participants = party_info['participant']
+
+    if userid_receive not in participants:
+        return jsonify({'result' : '해당 참가자가 없습니다'})
+    
+    db.party.update_one( { "_id" : object_id }, { "$pull": { "participant" : userid_receive } } );
+    if state == 1:
+        db.party.update_one( { "_id" : object_id }, { "$set": { "state" : "0" } } );
+    return jsonify({'result' : 'success'}) 
 
 if __name__ == '__main__':
    app.run('0.0.0.0',port=5000,debug=True)
