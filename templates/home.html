@@ -1,588 +1,289 @@
 <!DOCTYPE html>
 <html lang="ko">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
 
-    <!-- Bootstrap CSS -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-      integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l"
-      crossorigin="anonymous"
-    />
-    <!-- Import Jquery -->
-    <script
-      src="https://code.jquery.com/jquery-3.5.1.min.js"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      type="text/javascript"
-      src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"
-    ></script>
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-    <script
-      src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-      integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-      crossorigin="anonymous"
-    ></script>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+    integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" />
+  <!-- Import Jquery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
+  <script type="text/javascript"
+    src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
-    <!-- Google Font -->
-    <!-- <link
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    crossorigin="anonymous"></script>
+
+  <!-- Google Font -->
+  <!-- <link
       href="https://fonts.googleapis.com/css?family=Stylish&display=swap"
       rel="stylesheet"
     /> -->
 
-    <title>Krafton Jungle Team06</title>
+  <title>Krafton Jungle Team06</title>
 
-    <!-- Style -->
-    <style type="text/css">
-      * {
-        font-family: "Stylish", sans-serif;
-      }
+  <!-- Style -->
+  <style type="text/css">
+    * {
+      font-family: "Stylish", sans-serif;
+    }
 
-      .wrap {
-        width: 900px;
-        margin: auto;
-      }
+    .wrap {
+      width: 900px;
+      margin: auto;
+    }
 
-      .comment {
-        color: blue;
-        font-weight: bold;
-      }
+    .comment {
+      color: blue;
+      font-weight: bold;
+    }
 
-      .link-like {
-        color: #397af6;
-      }
-    </style>
-     <script>
-      // 로그 아웃
-      function signOut(){
-        $.removeCookie('mytoken',{path:'/'});
-        window.location.href = '/';
-      }
-    </script>
-    <script src="https://cdn.tailwindcss.com"></script>
-  </head>
+    .link-like {
+      color: #397af6;
+    }
+  </style>
+  <script>
+    // 로그 아웃
+    function signOut() {
+      $.removeCookie('mytoken', { path: '/' });
+      window.location.href = '/';
+    }
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
 
-  <body>
-    <!-- component -->
-    <!-- This is an example component -->
-    <div>
-      <nav class="bg-white border-b border-gray-200 fixed z-30 w-full">
-        <div class="px-3 py-3 lg:px-5 lg:pl-3">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center justify-start">
-              <button
-                id="toggleSidebarMobile"
-                aria-expanded="true"
-                aria-controls="sidebar"
-                class="lg:hidden mr-2 text-gray-600 hover:text-gray-900 cursor-pointer p-2 hover:bg-gray-100 focus:bg-gray-100 focus:ring-2 focus:ring-gray-100 rounded"
-              >
-                <svg
-                  id="toggleSidebarMobileHamburger"
-                  class="w-6 h-6"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                    clip-rule="evenodd"
-                  ></path>
-                </svg>
-                <svg
-                  id="toggleSidebarMobileClose"
-                  class="w-6 h-6 hidden"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                    clip-rule="evenodd"
-                  ></path>
-                </svg>
+<body>
+  <!-- component -->
+  <!-- This is an example component -->
+  <div>
+    <nav class="bg-white border-b border-gray-200 fixed z-30 w-full">
+      <div class="px-3 py-3 lg:px-5 lg:pl-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center justify-start">
+            <button id="toggleSidebarMobile" aria-expanded="true" aria-controls="sidebar"
+              class="lg:hidden mr-2 text-gray-600 hover:text-gray-900 cursor-pointer p-2 hover:bg-gray-100 focus:bg-gray-100 focus:ring-2 focus:ring-gray-100 rounded">
+              <svg id="toggleSidebarMobileHamburger" class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h6a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                  clip-rule="evenodd"></path>
+              </svg>
+              <svg id="toggleSidebarMobileClose" class="w-6 h-6 hidden" fill="currentColor" viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clip-rule="evenodd"></path>
+              </svg>
+            </button>
+            <a href="#" class="text-2xl text-gray-700 font-bold flex items-center lg:ml-2.5">
+              <span class="self-center whitespace-nowrap">오늘 밥 친구</span>
+              <svg class="w-8 h-8 ml-2 mb-1 stroke-gray-700" fill="none" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </a>
+          </div>
+          <div class="flex items-center">
+            <div class="pr-4">
+              <button onclick="signOut()"
+                class="bg-transparent hover:bg-black-500 text-black-700 font-semibold hover:text-white py-2 px-4 border border-black-500 hover:border-transparent rounded">
+                logout
               </button>
-              <a
-                href="#"
-                class="text-2xl text-gray-700 font-bold flex items-center lg:ml-2.5"
-              >
-                <span class="self-center whitespace-nowrap">오늘 밥 친구</span>
-                <svg
-                  class="w-8 h-8 ml-2 mb-1 stroke-gray-700"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                  ></path>
-                </svg>
-              </a>
             </div>
-            <div class="flex items-center">
-              <div class="pr-4">
-                <button onclick="signOut()" class="bg-transparent hover:bg-black-500 text-black-700 font-semibold hover:text-white py-2 px-4 border border-black-500 hover:border-transparent rounded">
-                  logout
-                </button>
-              </div>
-              <a href="#">
-                <svg
-                  class="w-10 h-10 stroke-gray-700"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                  ></path>
-                </svg>
-              </a>
-            </div>
+            <a href="#">
+              <svg class="w-10 h-10 stroke-gray-700" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z">
+                </path>
+              </svg>
+            </a>
           </div>
         </div>
-      </nav>
-
-      <!-- sidebar -->
-
-      <div class="flex overflow-hidden bg-white pt-16">
-        <aside
-          id="sidebar"
-          class="fixed hidden z-20 h-full top-0 left-0 pt-16 flex lg:flex flex-shrink-0 flex-col w-64 transition-width duration-75"
-          aria-label="Sidebar"
-        >
-          <div
-            class="relative flex-1 flex flex-col min-h-0 border-r border-gray-200 bg-white pt-0"
-          >
-            <div class="flex-1 flex flex-col pt-3 pb-4 overflow-y-auto">
-              <div class="flex-1 px-3 bg-white divide-y space-y-1">
-                <!-- host sidebar -->
-                <div class="basis-1/2">
-                  <a class="text-xl">내가 만든 모임 리스트</a>
-
-                  <ul class="space-y-2 pb-2">
-                    <li>
-                      <a
-                        href="#"
-                        class="text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group"
-                      >
-                        <svg
-                          class="w-6 h-6 text-gray-500 group-hover:text-gray-900 transition duration-75"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
-                          <path
-                            d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"
-                          ></path>
-                        </svg>
-                        <span class="ml-3">Dashboard</span>
-                      </a>
-                    </li>
-                    <li>
-                                  
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        target="_blank"
-                        class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group"
-                      >
-                        <svg
-                          class="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M8.707 7.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l2-2a1 1 0 00-1.414-1.414L11 7.586V3a1 1 0 10-2 0v4.586l-.293-.293z"
-                          ></path>
-                          <path
-                            d="M3 5a2 2 0 012-2h1a1 1 0 010 2H5v7h2l1 2h4l1-2h2V5h-1a1 1 0 110-2h1a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"
-                          ></path>
-                        </svg>
-                        <span class="ml-3 flex-1 whitespace-nowrap">Inbox</span>
-                        <span
-                          class="bg-gray-200 text-gray-800 ml-3 text-sm font-medium inline-flex items-center justify-center px-2 rounded-full"
-                          >Pro</span
-                        >
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group"
-                      >
-                        <svg
-                          class="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                            clip-rule="evenodd"
-                          ></path>
-                        </svg>
-                        <span class="ml-3 flex-1 whitespace-nowrap">Users</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group"
-                      >
-                        <svg
-                          class="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z"
-                            clip-rule="evenodd"
-                          ></path>
-                        </svg>
-                        <span class="ml-3 flex-1 whitespace-nowrap"
-                          >Products</span
-                        >
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group"
-                      >
-                        <svg
-                          class="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
-                            clip-rule="evenodd"
-                          ></path>
-                        </svg>
-                        <span class="ml-3 flex-1 whitespace-nowrap"
-                          >Sign In</span
-                        >
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group"
-                      >
-                        <svg
-                          class="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M5 4a3 3 0 00-3 3v6a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H5zm-1 9v-1h5v2H5a1 1 0 01-1-1zm7 1h4a1 1 0 001-1v-1h-5v2zm0-4h5V8h-5v2zM9 8H4v2h5V8z"
-                            clip-rule="evenodd"
-                          ></path>
-                        </svg>
-                        <span class="ml-3 flex-1 whitespace-nowrap"
-                          >Sign Up</span
-                        >
-                      </a>
-                    </li>
-                  </ul>
+      </div>
+    </nav>
+    <!-- sidebar -->
+    <div class="flex overflow-hidden bg-white pt-16">
+      <aside id="sidebar"
+        class="fixed hidden z-20 h-full top-0 left-0 pt-16 flex lg:flex flex-shrink-0 flex-col w-1/6 transition-width duration-75"
+        aria-label="Sidebar">
+        <div class="relative flex-1 flex flex-col min-h-0 border-r border-gray-200 bg-white pt-0">
+          <div class="flex-1 flex flex-col pt-3 pb-4 overflow-y-auto">
+            <div class="flex-1 px-3 bg-white divide-y space-y-1">
+              <!-- host sidebar -->
+              <div class="basis-1/2 my-8">
+                <div class="flex justify-center">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M21 15.546c-.523 0-1.046.151-1.5.454a2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.704 2.704 0 00-3 0 2.704 2.704 0 01-3 0 2.701 2.701 0 00-1.5-.454M9 6v2m3-2v2m3-2v2M9 3h.01M12 3h.01M15 3h.01M21 21v-7a2 2 0 00-2-2H5a2 2 0 00-2 2v7h18zm-3-9v-2a2 2 0 00-2-2H8a2 2 0 00-2 2v2h12z">
+                    </path>
+                  </svg>
+                  <p class="text-2xl font-bold ml-2"> 내가 만든 모임</p>
                 </div>
-                <div class="basis-1/2">
-                  <ul class="space-y-2 pb-2">
-                    <li>
-                      <form action="#" method="GET" class="lg:hidden">
-                        <label for="mobile-search" class="sr-only"
-                          >Search</label
-                        >
-                        <div class="relative">
-                          <div
-                            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
-                          >
-                            <svg
-                              class="w-5 h-5 text-gray-500"
-                              fill="currentColor"
-                              viewBox="0 0 20 20"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
-                              ></path>
-                            </svg>
-                          </div>
-                          <input
-                            type="text"
-                            name="email"
-                            id="mobile-search"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-cyan-600 focus:ring-cyan-600 block w-full pl-10 p-2.5"
-                            placeholder="Search"
-                          />
-                        </div>
-                      </form>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        class="text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-gray-100 group"
-                      >
-                        <svg
-                          class="w-6 h-6 text-gray-500 group-hover:text-gray-900 transition duration-75"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path d="M2 10a8 8 0 018-8v8h8a8 8 0 11-16 0z"></path>
-                          <path
-                            d="M12 2.252A8.014 8.014 0 0117.748 8H12V2.252z"
-                          ></path>
-                        </svg>
-                        <span class="ml-3">Dashboard</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        target="_blank"
-                        class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group"
-                      >
-                        <svg
-                          class="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
-                          ></path>
-                        </svg>
-                        <span class="ml-3 flex-1 whitespace-nowrap"
-                          >Kanban</span
-                        >
-                        <span
-                          class="bg-gray-200 text-gray-800 ml-3 text-sm font-medium inline-flex items-center justify-center px-2 rounded-full"
-                          >Pro</span
-                        >
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        target="_blank"
-                        class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group"
-                      >
-                        <svg
-                          class="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M8.707 7.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l2-2a1 1 0 00-1.414-1.414L11 7.586V3a1 1 0 10-2 0v4.586l-.293-.293z"
-                          ></path>
-                          <path
-                            d="M3 5a2 2 0 012-2h1a1 1 0 010 2H5v7h2l1 2h4l1-2h2V5h-1a1 1 0 110-2h1a2 2 0 012 2v10a2 2 0 01-2 2H5a2 2 0 01-2-2V5z"
-                          ></path>
-                        </svg>
-                        <span class="ml-3 flex-1 whitespace-nowrap">Inbox</span>
-                        <span
-                          class="bg-gray-200 text-gray-800 ml-3 text-sm font-medium inline-flex items-center justify-center px-2 rounded-full"
-                          >Pro</span
-                        >
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group"
-                      >
-                        <svg
-                          class="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                            clip-rule="evenodd"
-                          ></path>
-                        </svg>
-                        <span class="ml-3 flex-1 whitespace-nowrap">Users</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group"
-                      >
-                        <svg
-                          class="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z"
-                            clip-rule="evenodd"
-                          ></path>
-                        </svg>
-                        <span class="ml-3 flex-1 whitespace-nowrap"
-                          >Products</span
-                        >
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group"
-                      >
-                        <svg
-                          class="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"
-                            clip-rule="evenodd"
-                          ></path>
-                        </svg>
-                        <span class="ml-3 flex-1 whitespace-nowrap"
-                          >Sign In</span
-                        >
-                      </a>
-                    </li>
-                    <li>
-                      <a
-                        href="#"
-                        class="text-base text-gray-900 font-normal rounded-lg hover:bg-gray-100 flex items-center p-2 group"
-                      >
-                        <svg
-                          class="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M5 4a3 3 0 00-3 3v6a3 3 0 003 3h10a3 3 0 003-3V7a3 3 0 00-3-3H5zm-1 9v-1h5v2H5a1 1 0 01-1-1zm7 1h4a1 1 0 001-1v-1h-5v2zm0-4h5V8h-5v2zM9 8H4v2h5V8z"
-                            clip-rule="evenodd"
-                          ></path>
-                        </svg>
-                        <span class="ml-3 flex-1 whitespace-nowrap"
-                          >Sign Up</span
-                        >
-                      </a>
-                    </li>
-                  </ul>
+                {% for host in host_party %}
+                <div class="my-4 rounded overflow-hidden shadow-lg">
+                  <div class="px-6 py-4">
+                    <div class="font-bold text-xl mb-2">{{host.title}}</div>
+                    <ul class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-5">
+                      <li class="grid grid-cols-1 "><svg class="w-6 h-6" fill="none" stroke="currentColor"
+                          viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                          </path>
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg> {{host.store}} </li>
+                      <li> (이건 지울 예정!) 호스트 : {{host.host}} </li>
+                      <li> {{host.category}} | {{host.menu}} </li>
+                      <li> {{host.hour}} : {{host.minute}} </li>
+                      <li> {{host.place}} </li>
+                      <li> {{host.people}} </li>
+                      <li> {{host.state}} </li>
+                    </ul>
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold mt-4 py-2 px-4 rounded">
+                      참여하기
+                    </button>
+                  </div>
                 </div>
+                {% endfor %}
               </div>
-              <div></div>
+              <!-- participant sidebar -->
+              <div class="basis-1/2">
+                <div class="mt-8 mb-40 flex justify-center">
+                  <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                      d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7">
+                    </path>
+                  </svg>
+                  <p class="text-2xl font-bold ml-2"> 참여 신청중인 모임</p>
+                </div>
+                {% for participant in participant_party %}
+                <div class="my-4 rounded overflow-hidden shadow-lg">
+                  <div class="px-6 py-4">
+                    <div class="font-bold text-xl mb-2">{{host.title}}</div>
+                    <ul class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-5">
+                      <li class="grid grid-cols-1 "><svg class="w-6 h-6" fill="none" stroke="currentColor"
+                          viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
+                          </path>
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg> {{host.store}} </li>
+                      <li> (이건 지울 예정!) 호스트 : {{participant.host}} </li>
+                      <li> {{participant.category}} | {{participant.menu}} </li>
+                      <li> {{participant.hour}} : {{participant.minute}} </li>
+                      <li> {{participant.place}} </li>
+                      <li> {{participant.people}} </li>
+                      <li> {{participant.state}} </li>
+                    </ul>
+                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold mt-4 py-2 px-4 rounded">
+                      참여하기
+                    </button>
+                  </div>
+                </div>
+                {% endfor %}
+
+              </div>
             </div>
           </div>
-        </aside>
-        <div
-        class="bg-gray-900 opacity-50 hidden fixed inset-0 z-10"
-        id="sidebarBackdrop"
-      ></div>
-      <div
-        id="main-content"
-        class="h-full w-full bg-gray-50 relative overflow-y-auto lg:ml-64"
-      >
-        <main>
-          <div class="pt-6 px-4">
-<!-- cards -->
-  <div class="p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-5">
-    <!--Card 1-->
-    <div class="rounded overflow-hidden shadow-lg">
-      <img class="w-full" src="/mountain.jpg" alt="Mountain">
-      <div class="px-6 py-4">
-        <div class="font-bold text-xl mb-2">Sample 1</div>
-        <p class="text-gray-700 text-base">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, Nonea! Maiores et perferendis eaque, exercitationem praesentium nihil.
-        </p>
-      </div>
-      <div class="px-6 pt-4 pb-2">
-        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
-        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#travel</span>
-        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#winter</span>
-      </div>
+          <div></div>
+        </div>
+      </aside>
     </div>
-    <!--Card 2-->
-    <div class="rounded overflow-hidden shadow-lg">
-      <img class="w-full" src="/river.jpg" alt="River">
-      <div class="px-6 py-4">
-        <div class="font-bold text-xl mb-2">Sample 2</div>
-        <p class="text-gray-700 text-base">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, Nonea! Maiores et perferendis eaque, exercitationem praesentium nihil.
-        </p>
-      </div>
-      <div class="px-6 pt-4 pb-2">
-        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#photography</span>
-        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#travel</span>
-        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">#summer</span>
-      </div>
-    </div>
-
-    {% for party in partys %}
-    <div class="rounded overflow-hidden shadow-lg">
-      <img class="w-full" src={{party.img}} alt={{party.category}}>
-      <div class="px-6 py-4">
-        <div class="font-bold text-xl mb-2">{{party.title}}</div>
-        <ul class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-5">
-          <li class="grid grid-cols-1 "><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg> {{party.store}} </li>
-          <li> {{party.category}} | {{party.menu}} </li>
-          <li> {{party.hour}} : {{party.minute}} </li>
-          <li> {{party.place}} </li>
-          <li> {{party.people}} </li>
-          <li> {{party.state}} </li>
-        </ul>
-        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold mt-4 py-2 px-4 rounded">
-          참여하기
-        </button>
-      </div>
-    </div>
-    {% endfor %} 
-    <!-- cards -->
-  </div>
+    <div class="bg-gray-900 opacity-50 hidden fixed inset-0 z-10" id="sidebarBackdrop"></div>
+    <main>
+      <div id="main-content" class="h-full w-5/6 bg-gray-50 relative overflow-y-auto lg:ml-64">
+        <div class="w-5/6 px-4">
+          <!-- cards -->
+          <div class="p-10 grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-3 gap-5">
+            {% for party in partys %}
+            <div class="mx-4 rounded overflow-hidden shadow-lg">
+              <div class="flex justify-center ">
+                {% if party.category == '한식' %}
+                <img class="mx-2 my-2 object-cover h-48 w-96" src="../static/image/korean_food.png"
+                  alt={{party.category}}>
+                {% elif party.category == '양식' %}
+                <img class="mx-2 my-2 object-cover h-48 w-96" src="../static/image/western_food.png"
+                  alt={{party.category}}>
+                {% elif party.category == '중식' %}
+                <img class="mx-2 my-2 object-cover h-48 w-96" src="../static/image/chinese_food.png"
+                  alt={{party.category}}>
+                {% else %}
+                <img class="mx-2 my-2 object-cover h-48 w-96" src="../static/image/japanese_food.png"
+                  alt={{party.category}}>
+                {% endif %}
+              </div>
+              <div class="px-6 py-4">
+                <div class="font-bold text-xl mb-2">{{party.title}}</div>
+                <ul class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-5">
+                  <li class="flex justify-start">
+                    <svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                    </svg> <a>{{party.store}}</a>
+                  </li>
+                  <li class="flex justify-start"> <svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor"
+                      viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16">
+                      </path>
+                    </svg> <a> {{party.category}} | {{party.menu}}</a> </li>
+                  <li class="flex justify-start"> <svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor"
+                      viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg> <a>{{party.hour}} : {{party.minute}}</a> </li>
+                  <li class="flex justify-start"><svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor"
+                      viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z">
+                      </path>
+                    </svg> <a>{{party.place}}</a> </li>
+                  <li class="flex justify-start"> <svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor"
+                      viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
+                      </path>
+                    </svg> <a>{{party.people}}</a> </li>
+                  <li class="flex justify-start"><svg class="w-6 h-6 mr-1" fill="none" stroke="currentColor"
+                      viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z">
+                      </path>
+                    </svg> <a>{{party.state}}</a> </li>
+                  <li class="flex justify-start"> <a>(이건 지울 예정!) 호스트 : {{party.host}}</a> </li>
+                </ul>
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold mt-4 py-2 px-4 rounded">
+                  참여하기
+                </button>
+              </div>
+            </div>
+            {% endfor %}
+            <!-- cards -->
           </div>
-        </main>
-        <footer>
-          <p class="text-center text-sm text-gray-500 my-10">
-            &copy; 2022
-            <a href="#" class="hover:underline" target="_blank">Krafton Jungle Week00 Team06</a
-            >. All rights reserved.
-          </p>
-        </footer>
+    </main>
+    <footer>
+      <p class="text-center text-sm text-gray-500 my-10">
+        &copy; 2022
+        <a href="http://github.com/Krafton-Jungle-Team6/Jungle-Mini-Poject" class="hover:underline"
+          target="_blank">Krafton Jungle Week00 Team06</a>. All rights reserved.
+      </p>
+    </footer>
 
-      </div>
-    </div>
   </div>
-      </div>
-    </div>
-  </body>
+  </div>
+  </div>
+  </div>
+  </div>
+</body>
+
 </html>
