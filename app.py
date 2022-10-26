@@ -52,6 +52,7 @@ def validate_token(token):
 @app.route('/')
 def home():
     token_receive = request.cookies.get('mytoken')
+    
     if(token_receive != None):
         is_valid = validate_token(token_receive)
         if is_valid:
@@ -79,7 +80,7 @@ def post_signin():
             }
             print(datetime.utcnow())
             token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
-            return jsonify({'result': 'success', 'token': token})
+            return jsonify({'result': 'success', 'token': token.decode('utf-8')})
         else:
             return jsonify({'result':'failed'})
     else:
