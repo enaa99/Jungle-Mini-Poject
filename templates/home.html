@@ -310,36 +310,15 @@
                 <div class="my-4 rounded overflow-hidden shadow-lg">
                   <div class="px-6 py-4 ">
                     <p class="font-bold text-xl mb-2 truncate ...">{{participant.title}}</p>
-
-
-                
-                    <!--  -->
-                    <!-- <ol class="grid grid-cols-6sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-5"> -->
-                      <!-- <ol class=""></ol> -->
-                      <!-- <li class="grid grid-cols-1 "><svg class="w-6 h-6" fill="none" stroke="currentColor"
-                          viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"> -->
-                          <!-- <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z">
-                          </path>
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path> -->
-                        <!-- </svg> {{participant.store}} </li> -->
-                      <!-- <li> (이건 지울 예정!) 호스트 : {{participant.host}} </li> -->
                       <p class="truncate ..." > 메뉴 : {{participant.category}} | {{participant.menu}} </p>
                       <p class="truncate ..."> 약속시간 : {{participant.time}}( {{participant['participant']|length}} / {{participant.people}}  ) </p>
-
-<!--                       
-                      <li class="truncate ..." > 메뉴 : {{participant.category}} | {{participant.menu}} </li>
-                      <li class="truncate ..."> 약속시간 : {{participant.hour}} : {{participant.minute}} </li>
-                      <li class="truncate ..."> 약속장소 : {{participant.place}} </li>
-                      <li class="truncate ..."> {{participant['participant']|length}} / {{participant.people}} </li> -->
-                      <!-- <li> {{participant.state}} </li> -->
-                    <!-- </ol> -->
+                      {% if participant.state == '0' %}
                     <button 
                     onclick="cancelParty('{{participant._id}}') "
                     class="bg-red-500 hover:bg-red-700 text-white font-bold mt-4 py-2 px-4 rounded">
                       취소하기
                     </button>
+                    {% endif %}
                   </div>
                 </div>
                 {% endfor %}
