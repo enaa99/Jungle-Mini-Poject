@@ -70,8 +70,6 @@ def post_signin():
     print(user_data)
     if user_data != None :
         encrypted_password = user_data['password']
-      
-
         if bcrypt.checkpw(pwd_receive.encode("utf-8"), encrypted_password) :
             payload = {
                 'id':name_receive,                
@@ -79,7 +77,7 @@ def post_signin():
             }
             print(datetime.utcnow())
             token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
-            return jsonify({'result': 'success', 'token': token.decode('utf-8')})
+            return jsonify({'result': 'success', 'token': token})
         else:
             return jsonify({'result':'failed'})
     else:
