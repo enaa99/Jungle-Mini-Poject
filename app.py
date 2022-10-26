@@ -40,13 +40,13 @@ SECRET_KEY = 'jungle'
 
 def validate_token(token):
     try:
-        jwt.decode(token,SECRET_KEY,algorithms=['HS256'])
+        user_data = jwt.decode(token,SECRET_KEY,algorithms=['HS256'])
     except jwt.ExpiredSignatureError:
         return False
     except jwt.exceptions.DecodeError:
         return False
     else:
-        return True
+        return user_data['id']
         
 
 @app.route('/')
@@ -89,9 +89,23 @@ def post_signin():
 @app.route('/home')
 def homecoming():
     token_receive = request.cookies.get('mytoken')
-    is_valid = validate_token(token_receive)
-    if is_valid:
-        return render_template('home.html') 
+    uid = validate_token(token_receive)
+    partys, host_party, participant_party = [], [], []
+    if uid:
+        result = list(db.party.find({'state':'0'}))
+        print(result)
+        for r in result:
+            print(r)
+            if uid == r['host']:
+                host_party.append(r)
+            elif uid in r['participant']:
+                participant_party.append(r)
+            else:
+                partys.append(r)
+
+        print(host_party)
+        return render_template('home.html', partys = partys, host_party = host_party, participant_party = participant_party)
+        # return render_template('home.html') 
     else:
         return redirect('/')
 
@@ -146,11 +160,11 @@ def user_register():
     return jsonify({'result' : 'success'}) 
 
 # 모임 리스트 조회
-@app.route('/party', methods=['GET'])
-def party_create():
-    partys = list(db.party.find({}))
-    print(partys)
-    return render_template('home.html', partys = partys)
+# @app.route('/party', methods=['GET'])
+# def party_create():
+    # partys = list(db.party.find({}))
+    # print(partys)
+    # return render_template('home.html', partys = partys)
 
 # 모임 생성z
 @app.route('/party', methods=['POST'])
