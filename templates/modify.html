@@ -22,18 +22,11 @@
             url: "/auth/info",
             data: {},
             success: function (response) {
-           console.log(response["result"])
             if (response["result"] == "success") {
                 let info = response['info'];
                 $('#id').val(info['id'])
                 $('#email').val(info['email'].split('@')[0])
                 $('#nickname').val(info['name'])  
-
-                console.log('넌 어디??')
-            }
-            else{
-                console.log('왜여기야?')
-      
             }
 }})}
 
@@ -46,12 +39,7 @@
       let confirm_password = $('#confirm_password').val();
       let name = $('#nickname').val();
       let radio = $("input[name='class_radio']:checked").val();
-      if(radio == undefined || radio == null)
-        radio ='0'
 
-      console.log(radio)
-
-      console.log(radio)
       $.ajax({
         type: "PATCH",
         url: "/auth/modify",
@@ -62,7 +50,6 @@
           radio_give: radio
         },
         success: function (response) {
-          console.log(response)
         if (response["result"] == "success") {
             alert('수정 완료');
             window.location.href = '/home';
