@@ -66,7 +66,6 @@ def home():
 def post_signin():
     name_receive = request.form['uid']
     pwd_receive = request.form['pwd']
-
     user_data = db.user.find_one({'id':name_receive})
     print(user_data)
     if user_data != None :
@@ -91,23 +90,24 @@ def homecoming():
     token_receive = request.cookies.get('mytoken')
     uid = validate_token(token_receive)
     partys, host_party, participant_party = [], [], []
-    if uid:
-        result = list(db.party.find({'state':'0'}))
-        print(result)
-        for r in result:
-            print(r)
-            if uid == r['host']:
-                host_party.append(r)
-            elif uid in r['participant']:
-                participant_party.append(r)
-            else:
-                partys.append(r)
+    if uid == False :
+        return redirect('/')
+    
+    result = list(db.party.find({}))
+    print(result)
+    for r in result:
+        print(r)
+        if uid == r['host']:
+            host_party.append(r)
+        elif uid in r['participant']:
+            participant_party.append(r)
+        elif r['state'] == 0:
+            partys.append(r)
 
         print(host_party)
-        return render_template('home.html', partys = partys, host_party = host_party, participant_party = participant_party)
+    return render_template('home.html', partys = partys, host_party = host_party, participant_party = participant_party)
         # return render_template('home.html') 
-    else:
-        return redirect('/')
+   
 
 
 @app.route('/auth/signup', methods=['GET'])
@@ -169,6 +169,11 @@ def user_register():
 # 모임 생성z
 @app.route('/party', methods=['POST'])
 def party_register():
+    token_receive = request.cookies.get('mytoken')
+    uid = validate_token(token_receive)
+    if uid == False:
+        return jsonify({'result' : 'failed'}) 
+    
    #get user information
     host_receive = request.form['host_give']
     title_receive = request.form['title_give']  
@@ -188,28 +193,60 @@ def party_register():
     db.party.insert_one(party_data)
     return jsonify({'result' : 'success'}) 
 
-# 모임 삭제
+# 모임 삭제(호스트)
 @app.route('/party', methods=['DELETE'])
 def party_delete():
+    token_receive = request.cookies.get('mytoken')
+    uid = validate_token(token_receive)
+    
+    if uid == False:
+        return jsonify({'result':'failed'})
+    
     object_id_receive = request.form['object_id_give']
     object_id = ObjectId(object_id_receive)
-    print(object_id_receive)
-
-    
-    db.party.deleteOne({'_id' : object_id})
-    return jsonify({'result' : 'success'}) 
+    party_info = db.party.find_one({'_id':object_id})
+    print(party_info)
+    if party_info is not None:
+        if party_info['host'] == uid :
+            db.party.delete_one({'_id' : object_id})
+            return jsonify({'result':'success'})
+        else:
+            return jsonify({'result':'failed'})
+    else:
+        return jsonify({'result':'failed'})
 
 # 모임 확정(호스트)
-@app.route('/party/confirm', methods = ['PUT'])
+@app.route('/party',methods=['PATCH'])
 def party_confirm():
+    token_receive = request.cookies.get('mytoken')
+    uid = validate_token(token_receive)
+
+    if uid == False:
+        return jsonify({'result':'failed'})
+
     object_id_receive = request.form['object_id_give']
     object_id = ObjectId(object_id_receive)
-    db.party.update_one({'_id':object_id},{'$set':{'state':'1'}})
-    return jsonify({'result':'success'})       
+    party_info = db.party.find_one({'_id':object_id})
+    if party_info is not None :
+        if (party_info['_id'] == object_id) and (uid == party_info['host']):
+            db.party.update_one({'_id':object_id},{'$set':{'state':'1'}})
+            print('성공')
+            return jsonify({'result':'success'})       
+        else:   
+            print('실패1')
+            return jsonify({'result':'잘못된 접근 입니다.'})
+    else:
+        print('실패2')
+        return jsonify({'result':'모임이 존재하지 않습니다'})
 
 
 @app.route('/party/join', methods=['POST'])
 def party_join():
+    token_receive = request.cookies.get('mytoken')
+    uid = validate_token(token_receive)
+    if uid == False:
+        return jsonify({'result':'failed'})
+    
     cardid_receive = request.form['cardid_give'] 
     userid_receive = request.form['userid_give'] 
     object_id = ObjectId(cardid_receive)
@@ -238,6 +275,11 @@ def party_join():
 
 @app.route('/party/cancel', methods=['POST'])
 def party_cancel():
+    token_receive = request.cookies.get('mytoken')
+    uid = validate_token(token_receive)
+    if uid == False:
+        return jsonify({'result':'failed'})
+    
     # return jsonify({'result' : '모임에 참여할 수 없습니다.'}) 
     cardid_receive = request.form['cardid_give'] 
     userid_receive = request.form['userid_give'] 

@@ -15,29 +15,74 @@
     src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
   <script>
-    function joinParty(host_id, object_id) {
+    function joinParty(object_id) {
       // object_id = "6357e7f9c058107b859a3214"
 
       // joinParty(test, 6357e7f9c058107b859a3214)
-      console.log(host_id, object_id)
+      console.log(object_id)
       $.ajax({
         type: "POST",
         url: "/party/join",
         data: {
           cardid_give: object_id,
-          userid_give: host_id,
         },
         success: function (response) {
           console.log(response)
           if (response["result"] == "success") {
             alert('참여 완료');
-            window.location.href = '/home';
+     
           } else {
             alert(response["result"]);
           }
+          window.location.href = '/home';
         }
       });
     }
+
+    function confirmParty(object_id) {
+      console.log(object_id)
+      $.ajax({
+        type: "PATCH",
+        url: "/party",
+        data: {
+          object_id_give: object_id,
+        },
+        success: function (response) {
+          console.log(response)
+          if (response["result"] == "success") {
+            alert('확정 완료');
+          }
+          else {
+            alert(response["result"]);
+          }
+          
+          window.location.href = '/home';
+        }
+      });
+    }
+  
+    function deleteParty(object_id) {
+      console.log(object_id)
+      $.ajax({
+        type: "DELETE",
+        url: "/party",
+        data: {
+          object_id_give: object_id,
+        },
+        success: function (response) {
+          console.log(response)
+          if (response["result"] == "success") {
+            alert(response['result']);
+          }
+          else {
+            alert(response['result']);
+          }
+          
+          window.location.href = '/home';
+        }
+      });
+    }
+
   </script>
   <!-- Google Font -->
   <!-- <link
@@ -166,9 +211,16 @@
                       <li> {{host.people}} </li>
                       <li> {{host.state}} </li>
                     </ul>
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold mt-4 py-2 px-4 rounded">
-                      참여하기
+                    <span class="inline-block align-middle">
+                    {% if host.state == '0' %}
+                    <button onclick="confirmParty('{{host._id}}')" class="bg-blue-500 hover:bg-blue-700 text-white font-bold mt-4 py-2 px-3 rounded">
+                      확정하기
                     </button>
+                    {% endif %}
+                    <button onclick="deleteParty('{{host._id}}')" class="bg-red-500 hover:bg-red-700 text-white font-bold mt-4 py-2 px-3 rounded">
+                      취소하기
+                    </button>
+                  </span>
                   </div>
                 </div>
                 {% endfor %}
@@ -187,7 +239,7 @@
                 {% for participant in participant_party %}
                 <div class="my-4 rounded overflow-hidden shadow-lg">
                   <div class="px-6 py-4">
-                    <div class="font-bold text-xl mb-2">{{host.title}}</div>
+                    <div class="font-bold text-xl mb-2">{{participant.title}}</div>
                     <ul class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-5">
                       <li class="grid grid-cols-1 "><svg class="w-6 h-6" fill="none" stroke="currentColor"
                           viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -196,7 +248,7 @@
                           </path>
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                        </svg> {{host.store}} </li>
+                        </svg> {{participant.store}} </li>
                       <li> (이건 지울 예정!) 호스트 : {{participant.host}} </li>
                       <li> {{participant.category}} | {{participant.menu}} </li>
                       <li> {{participant.hour}} : {{participant.minute}} </li>
