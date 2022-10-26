@@ -107,16 +107,25 @@ def homecoming():
         return redirect('/')
     
     result = list(db.party.find({}))
-    for r in result:
-        if uid == r['host']:
-            host_party.append(r)
-        elif uid in r['participant']:
-            participant_party.append(r)
-        elif r['state'] == '0':
-            partys.append(r)
+    for data in result:
+        if uid == data['host']:
+            h_participants = []
+            host_party.append(data)
+            for participant_id in data['participant']:
+                participant_nickname = db.user.find_one({'id': participant_id})['name']
+                h_participants.append(participant_nickname)
+            host_party[-1]['participant'] = h_participants
+        elif uid in data['participant']:
+            p_participants = []
+            participant_party.append(data)
+            for participant_id in data['participant']:
+                participant_nickname = db.user.find_one({'id': participant_id})['name']
+                p_participants.append(participant_nickname)
+            participant_party[-1]['participant'] = p_participants
+        elif data['state'] == '0':
+            partys.append(data)
 
     return render_template('home.html', partys = partys, host_party = host_party, participant_party = participant_party)
-        # return render_template('home.html') 
    
 
 
