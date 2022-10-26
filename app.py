@@ -52,7 +52,6 @@ def validate_token(token):
 @app.route('/')
 def home():
     token_receive = request.cookies.get('mytoken')
-    
     if(token_receive != None):
         is_valid = validate_token(token_receive)
         if is_valid:
