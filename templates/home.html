@@ -6,9 +6,6 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
-    integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous" />
   <!-- Import Jquery -->
   <script src="https://code.jquery.com/jquery-3.5.1.min.js" crossorigin="anonymous"></script>
   <script type="text/javascript"
@@ -26,11 +23,10 @@
           console.log(response)
           if (response["result"] == "success") {
             alert('취소 완료');
-            window.location.href = '/home';
           } else {
             alert(response["result"]);
-            window.location.href = '/home';
           }
+          window.location.href = '/home';
         }
       });
     }
@@ -70,10 +66,8 @@
           }
           else {
             alert(response["result"]);
-            window.location.href = '/home';
           }
-          
-
+        
           window.location.href = '/home';
         }
       });
@@ -95,7 +89,7 @@
           else {
             alert(response['result']);
           }
-          
+
           window.location.href = '/home';
         }
       });
@@ -110,7 +104,6 @@
       let time = $('#party-time').val();
       let people = $('#party-people').val();
       let place = $('#party-place').val();
-      console.log(title, category, menu, store, time, people, place)
 
       $.ajax({
         type: "POST",
@@ -125,13 +118,13 @@
           place_give: place
         },
         success: function (response) {
-          console.log(response)
           if (response["result"] == "success") {
             alert('새로운 모임 생성 완료');
-            window.location.href = '/home';
+   
           } else {
             alert(response["result"]);
           }
+          window.location.href = '/home';
         }
       });
     }
@@ -277,7 +270,7 @@
                     </button>
                     {% endif %}
                     <button onclick="deleteParty('{{host._id}}')" class="bg-red-500 hover:bg-red-700 text-white font-bold mt-4 py-2 px-3 rounded">
-                      취소하기
+                      삭제하기
                     </button>
                   </span>
                   </div>

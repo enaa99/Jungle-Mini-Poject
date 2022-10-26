@@ -174,7 +174,7 @@ def party_register():
         return jsonify({'result' : 'failed'}) 
     
    #get user information
-    host_receive = request.form['host_give']
+    host_receive = uid
     title_receive = request.form['title_give']  
     store_receive = request.form['store_give']  
     category_receive = request.form['category_give'] 
