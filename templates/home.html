@@ -14,10 +14,31 @@
   <script type="text/javascript"
     src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 
-  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-    crossorigin="anonymous"></script>
+  <script>
+    function joinParty(host_id, object_id) {
+      // object_id = "6357e7f9c058107b859a3214"
 
+      // joinParty(test, 6357e7f9c058107b859a3214)
+      console.log(host_id, object_id)
+      $.ajax({
+        type: "POST",
+        url: "/party/join",
+        data: {
+          cardid_give: object_id,
+          userid_give: host_id,
+        },
+        success: function (response) {
+          console.log(response)
+          if (response["result"] == "success") {
+            alert('참여 완료');
+            window.location.href = '/home';
+          } else {
+            alert(response["result"]);
+          }
+        }
+      });
+    }
+  </script>
   <!-- Google Font -->
   <!-- <link
       href="https://fonts.googleapis.com/css?family=Stylish&display=swap"
