@@ -1,6 +1,6 @@
 
 from datetime import timedelta,datetime
-
+import time
 
 from distutils.debug import DEBUG
 import email
@@ -13,9 +13,9 @@ from dotenv import dotenv_values
 from pymongo import MongoClient
 import jwt
 import bcrypt
-from pymongo import MongoClient
+
 app = Flask(__name__)
-from pymongo import MongoClient
+
 import bcrypt
 import re
 
@@ -23,7 +23,6 @@ import re
 # from flask_jwt_extended import create_access_token
 
 
-config = dotenv_values(".env")
 
 app.config["JWT_SECRET_KEY"] = "team-six"
 
@@ -106,16 +105,25 @@ def homecoming():
         return redirect('/')
     
     result = list(db.party.find({}))
-    for r in result:
-        if uid == r['host']:
-            host_party.append(r)
-        elif uid in r['participant']:
-            participant_party.append(r)
-        elif r['state'] == '0':
-            partys.append(r)
+    for data in result:
+        if uid == data['host']:
+            h_participants = []
+            host_party.append(data)
+            for participant_id in data['participant']:
+                participant_nickname = db.user.find_one({'id': participant_id})['name']
+                h_participants.append(participant_nickname)
+            host_party[-1]['participant'] = h_participants
+        elif uid in data['participant']:
+            p_participants = []
+            participant_party.append(data)
+            for participant_id in data['participant']:
+                participant_nickname = db.user.find_one({'id': participant_id})['name']
+                p_participants.append(participant_nickname)
+            participant_party[-1]['participant'] = p_participants
+        elif data['state'] == '0':
+            partys.append(data)
 
     return render_template('home.html', partys = partys, host_party = host_party, participant_party = participant_party)
-        # return render_template('home.html') 
    
 
 
@@ -168,7 +176,6 @@ def user_register():
     elif re.search('[a-zA-Z]+', password_receive) is None:
         return jsonify({'result' : '비밀번호에 1개 이상의 영문 대소문자를 포함해주세요.'})
     elif re.search('[`~!@#$%^&*(),<.>/?]+',password_receive) is None:
-    
         return jsonify({'result' : '비밀번호에 1개 이상의 특수문자를 포함해주세요.'})
 
 
@@ -242,8 +249,6 @@ def user_modify():
     
         return jsonify({'result' : '비밀번호에 1개 이상의 특수문자를 포함해주세요.'})
 
-    if class_receive == '0':
-        return jsonify({'result' : '반을 선택해 주세요.'}) 
     #password hasing  
     pw_hash = bcrypt.hashpw(password_receive.encode("utf-8"), bcrypt.gensalt())
     db.user.update_one({'id':uid},{'$set':{'password':pw_hash,'name':name_receive,'class':class_receive}})
@@ -263,7 +268,7 @@ def party_register():
     token_receive = request.cookies.get('mytoken')
     uid = validate_token(token_receive)
     if uid == False:
-        return jsonify({'result' : 'failed'}) 
+        return jsonify({'result' : 'failed'})
     
    #get user information
     host_receive = uid
@@ -275,11 +280,18 @@ def party_register():
     place_receive = request.form['place_give']
     people_receive = request.form['people_give']  
     participant = [host_receive]
+    now = datetime.now()
+    dt_string = now.strftime("%H:%M")
 
-    party_data = {'host': host_receive, 'title': title_receive, 'store': store_receive, 'category': category_receive,
-                  'menu': menu_receive, 'time':time_receive, 'place': place_receive, 'people': people_receive, 'state': '0', 'participant': participant}
-    db.party.insert_one(party_data)
-    return jsonify({'result' : 'success'}) 
+    if time.strptime(dt_string,"%H:%M") < time.strptime(time_receive,"%H:%M"):
+
+        party_data = {'host': host_receive, 'title': title_receive, 'store': store_receive, 'category': category_receive,
+                    'menu': menu_receive, 'time':time_receive, 'place': place_receive, 'people': people_receive, 'state': '0', 'participant': participant, 'create' : now}
+        db.party.insert_one(party_data)
+        return jsonify({'result' : 'success'}) 
+    else:
+        return jsonify({'result' : '현재 이후의 시간을 입력하세요.'}) 
+   
 
 # 모임 삭제(호스트)
 @app.route('/party', methods=['DELETE'])
@@ -317,9 +329,13 @@ def party_confirm():
     if party_info is not None :
         if (party_info['_id'] == object_id) and (uid == party_info['host']):
             db.party.update_one({'_id':object_id},{'$set':{'state':'1'}})
+ 
+            return jsonify({'result':'success'})       
         else:   
+     
             return jsonify({'result':'잘못된 접근 입니다.'})
     else:
+  
         return jsonify({'result':'모임이 존재하지 않습니다'})
 
 
