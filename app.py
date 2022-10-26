@@ -83,7 +83,6 @@ def post_signin():
     name_receive = request.form['uid']
     pwd_receive = request.form['pwd']
     user_data = db.user.find_one({'id':name_receive})
-    print(user_data)
     if user_data != None :
         encrypted_password = user_data['password']
         if bcrypt.checkpw(pwd_receive.encode("utf-8"), encrypted_password) :
@@ -91,7 +90,6 @@ def post_signin():
                 'id':name_receive,                
                 'exp': datetime.utcnow() + timedelta(hours=1),
             }
-            print(datetime.utcnow())
             token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
             return jsonify({'result': 'success', 'token': token})
         else:
@@ -145,7 +143,6 @@ def user_register():
     name_receive = request.form['name_give'] 
     email_receive = request.form['email_give']
     class_receive = request.form['radio_give']
-    print(id_receive, password_receive, confirm_password_receive, name_receive, email_receive, class_receive)
 
    #data validation check    ´
     if not id_receive or not password_receive or not name_receive or not email_receive or not class_receive:
@@ -211,7 +208,6 @@ def info_show():
         'email':user_info['email'],
         'name':user_info['name']
     }
-    print(info)
     
     return jsonify({'result' : 'success','info':info})
 
@@ -250,11 +246,8 @@ def user_modify():
         return jsonify({'result' : '반을 선택해 주세요.'}) 
     #password hasing  
     pw_hash = bcrypt.hashpw(password_receive.encode("utf-8"), bcrypt.gensalt())
-    print('333')
-    print(class_receive)
     db.user.update_one({'id':uid},{'$set':{'password':pw_hash,'name':name_receive,'class':class_receive}})
     #insert user information to database
-    print('222')
     return jsonify({'result' : 'success'}) 
 
 # 모임 리스트 조회
@@ -282,7 +275,6 @@ def party_register():
     place_receive = request.form['place_give']
     people_receive = request.form['people_give']  
     participant = [host_receive]
-    print(host_receive, title_receive, store_receive, category_receive, menu_receive, place_receive, people_receive, participant)
 
     party_data = {'host': host_receive, 'title': title_receive, 'store': store_receive, 'category': category_receive,
                   'menu': menu_receive, 'time':time_receive, 'place': place_receive, 'people': people_receive, 'state': '0', 'participant': participant}
@@ -301,7 +293,6 @@ def party_delete():
     object_id_receive = request.form['object_id_give']
     object_id = ObjectId(object_id_receive)
     party_info = db.party.find_one({'_id':object_id})
-    print(party_info)
     if party_info is not None:
         if party_info['host'] == uid :
             db.party.delete_one({'_id' : object_id})
@@ -326,13 +317,9 @@ def party_confirm():
     if party_info is not None :
         if (party_info['_id'] == object_id) and (uid == party_info['host']):
             db.party.update_one({'_id':object_id},{'$set':{'state':'1'}})
-            print('성공')
-            return jsonify({'result':'success'})       
         else:   
-            print('실패1')
             return jsonify({'result':'잘못된 접근 입니다.'})
     else:
-        print('실패2')
         return jsonify({'result':'모임이 존재하지 않습니다'})
 
 

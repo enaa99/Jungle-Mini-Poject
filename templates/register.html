@@ -77,7 +77,7 @@
 
     function checkIdForm() {
       let id = $("#id").val();
-      let id_regex = /^[a-z]+[a-z0-9]{2,19}$/g;
+      let id_regex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/;
 
       if (id_regex.test(id) == false) {
         let match = "아이디는 2자 이상, 영어소문자 또는 영어소문자+숫자로 입력해주세요."
@@ -122,7 +122,7 @@
 
     function checkNickname() {
       let nickname = $("#nickname").val();
-      let nickname_regex =  /^[a-z]+[a-z0-9]{1,19}$/g;
+      let nickname_regex =  /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]+$/;
       if (nickname_regex.test(nickname) == false) {
         let match = "닉네임은는 2자 이상,영문자로 시작해서 작성하세요."
         let result = match.fontcolor('red');
