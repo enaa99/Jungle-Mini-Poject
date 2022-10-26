@@ -40,7 +40,9 @@ SECRET_KEY = 'jungle'
 
 def validate_token(token):
     try:
-        jwt.decode(token,SECRET_KEY,algorithms=['HS256'])
+        decoding = jwt.decode(token,SECRET_KEY,algorithms=['HS256'])
+        print('aaaaaaaaaa')
+        print(decoding)
     except jwt.ExpiredSignatureError:
         return False
     except jwt.exceptions.DecodeError:
@@ -183,7 +185,13 @@ def party_delete():
     db.party.deleteOne({'_id' : object_id})
     return jsonify({'result' : 'success'}) 
 
-       
+# 모임 확정(호스트)
+@app.route('/party/confirm', methods = ['PUT'])
+def party_confirm():
+    object_id_receive = request.form['object_id_give']
+    object_id = ObjectId(object_id_receive)
+    db.party.update_one({'_id':object_id},{'$set':{'state':'1'}})
+    return jsonify({'result':'success'})       
 
 
 @app.route('/party/join', methods=['POST'])
