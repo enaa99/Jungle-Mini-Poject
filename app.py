@@ -99,7 +99,7 @@ def homecoming():
             host_party.append(r)
         elif uid in r['participant']:
             participant_party.append(r)
-        elif r['state'] == 0:
+        elif r['state'] == '0':
             partys.append(r)
 
     print('11111')
