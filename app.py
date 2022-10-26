@@ -82,7 +82,6 @@ def post_signin():
     name_receive = request.form['uid']
     pwd_receive = request.form['pwd']
     user_data = db.user.find_one({'id':name_receive})
- 
     if user_data != None :
         encrypted_password = user_data['password']
         if bcrypt.checkpw(pwd_receive.encode("utf-8"), encrypted_password) :
@@ -90,7 +89,6 @@ def post_signin():
                 'id':name_receive,                
                 'exp': datetime.utcnow() + timedelta(hours=1),
             }
-            
             token = jwt.encode(payload, SECRET_KEY, algorithm='HS256')
             return jsonify({'result': 'success', 'token': token})
         else:
@@ -107,16 +105,25 @@ def homecoming():
         return redirect('/')
     
     result = list(db.party.find({}))
-    for r in result:
-        if uid == r['host']:
-            host_party.append(r)
-        elif uid in r['participant']:
-            participant_party.append(r)
-        elif r['state'] == '0':
-            partys.append(r)
+    for data in result:
+        if uid == data['host']:
+            h_participants = []
+            host_party.append(data)
+            for participant_id in data['participant']:
+                participant_nickname = db.user.find_one({'id': participant_id})['name']
+                h_participants.append(participant_nickname)
+            host_party[-1]['participant'] = h_participants
+        elif uid in data['participant']:
+            p_participants = []
+            participant_party.append(data)
+            for participant_id in data['participant']:
+                participant_nickname = db.user.find_one({'id': participant_id})['name']
+                p_participants.append(participant_nickname)
+            participant_party[-1]['participant'] = p_participants
+        elif data['state'] == '0':
+            partys.append(data)
 
     return render_template('home.html', partys = partys, host_party = host_party, participant_party = participant_party)
-        # return render_template('home.html') 
    
 
 
@@ -208,7 +215,6 @@ def info_show():
         'email':user_info['email'],
         'name':user_info['name']
     }
-    print(info)
     
     return jsonify({'result' : 'success','info':info})
 
@@ -245,11 +251,8 @@ def user_modify():
 
     #password hasing  
     pw_hash = bcrypt.hashpw(password_receive.encode("utf-8"), bcrypt.gensalt())
-    print('333')
-    print(class_receive)
     db.user.update_one({'id':uid},{'$set':{'password':pw_hash,'name':name_receive,'class':class_receive}})
     #insert user information to database
-    print('222')
     return jsonify({'result' : 'success'}) 
 
 # 모임 리스트 조회
@@ -302,7 +305,6 @@ def party_delete():
     object_id_receive = request.form['object_id_give']
     object_id = ObjectId(object_id_receive)
     party_info = db.party.find_one({'_id':object_id})
-
     if party_info is not None:
         if party_info['host'] == uid :
             db.party.delete_one({'_id' : object_id})
