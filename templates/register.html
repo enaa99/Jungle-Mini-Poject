@@ -11,7 +11,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
     integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
-  </script>
+    </script>
   <script>
     function cancelClick() {
       window.location.href = '/';
@@ -174,7 +174,7 @@
         password_regex3.test(pass) == false) {
         $("#message").html(
           "Password Must be at least 8 Digitslong and contains one UpperCase, one LowerCase and One special character."
-          );
+        );
         $('#myModal').modal("show");
         return false;
       } else if (password_regex2.test(first) == true || password_regex3.test(first) || password_regex2.test(last) ==
@@ -309,6 +309,7 @@
       </div>
     </div>
   </section>
+
 </body>
 
 </html>
