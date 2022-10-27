@@ -104,7 +104,8 @@ def homecoming():
     if uid == False :
         return redirect('/')
     
-    result = list(db.party.find({}))
+    result = list(db.party.find({}).sort('time'))
+
     for data in result:
         if uid == data['host']:
             h_participants = []
@@ -282,6 +283,7 @@ def party_register():
     participant = [host_receive]
     now = datetime.now()
     dt_string = now.strftime("%H:%M")
+    print(time.strptime(dt_string,"%H:%M") , time.strptime(time_receive,"%H:%M"))
 
     if time.strptime(dt_string,"%H:%M") < time.strptime(time_receive,"%H:%M"):
 
