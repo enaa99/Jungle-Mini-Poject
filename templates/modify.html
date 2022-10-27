@@ -106,7 +106,7 @@
       let nickname = $("#nickname").val();
       let nickname_regex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]{2,12}$/;
       if (nickname_regex.test(nickname) == false) {
-        let match = "닉네임은는 2자 이상으로 입력하세요."
+        let match = "닉네임은 2자 이상으로 입력하세요."
         let result = match.fontcolor('red');
         $("#divCheckNicknameForm").html(result);
       } else {
