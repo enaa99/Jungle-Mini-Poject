@@ -302,20 +302,18 @@
                             <div
                               class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                               <!--header-->
-                              <div
-                                class="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                              <div class="flex items-start p-5 border-b border-solid border-slate-200 rounded-t">
                                 <h3 class="text-2xl font-semibold">
                                   모임 참여자 정보
                                 </h3>
-                                <button
-                                  class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                                  onclick="toggleModal('host-modal')">
-                                  <span
-                                    class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                                    ×
-                                  </span>
-                                </button>
                               </div>
+                              <div class="flex justify-center pt-5">
+                                <span> 🎉 모임이 결성되었습니다! </span>
+                              </div>
+                              <h3 class="flex justify-center p-5 text-sm font-semibold">
+                                Slack에 이메일 주소를 입력해서 추가 대화를 진행해주세요!
+                              </h3>
+                              <hr class="h-px mx-4 bg-gray-200 border-0">
                               <!--body-->
                               <div class="relative p-6 flex-auto">
                                 {% for user in host.participant %}
@@ -341,6 +339,28 @@
                               <!--footer-->
                               <div
                                 class="flex justify-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                                <button type="button"
+                                  class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 mb-2"
+                                  onclick="window.open('https://slack.com')">
+                                  <svg enable-background="new 0 0 2447.6 2452.5" class="mr-2 -ml-1 w-6 h-6"
+                                    viewBox="0 0 2447.6 2452.5" xmlns="http://www.w3.org/2000/svg">
+                                    <g clip-rule="evenodd" fill-rule="evenodd">
+                                      <path
+                                        d="m897.4 0c-135.3.1-244.8 109.9-244.7 245.2-.1 135.3 109.5 245.1 244.8 245.2h244.8v-245.1c.1-135.3-109.5-245.1-244.9-245.3.1 0 .1 0 0 0m0 654h-652.6c-135.3.1-244.9 109.9-244.8 245.2-.2 135.3 109.4 245.1 244.7 245.3h652.7c135.3-.1 244.9-109.9 244.8-245.2.1-135.4-109.5-245.2-244.8-245.3z"
+                                        fill="#36c5f0" />
+                                      <path
+                                        d="m2447.6 899.2c.1-135.3-109.5-245.1-244.8-245.2-135.3.1-244.9 109.9-244.8 245.2v245.3h244.8c135.3-.1 244.9-109.9 244.8-245.3zm-652.7 0v-654c.1-135.2-109.4-245-244.7-245.2-135.3.1-244.9 109.9-244.8 245.2v654c-.2 135.3 109.4 245.1 244.7 245.3 135.3-.1 244.9-109.9 244.8-245.3z"
+                                        fill="#2eb67d" />
+                                      <path
+                                        d="m1550.1 2452.5c135.3-.1 244.9-109.9 244.8-245.2.1-135.3-109.5-245.1-244.8-245.2h-244.8v245.2c-.1 135.2 109.5 245 244.8 245.2zm0-654.1h652.7c135.3-.1 244.9-109.9 244.8-245.2.2-135.3-109.4-245.1-244.7-245.3h-652.7c-135.3.1-244.9 109.9-244.8 245.2-.1 135.4 109.4 245.2 244.7 245.3z"
+                                        fill="#ecb22e" />
+                                      <path
+                                        d="m0 1553.2c-.1 135.3 109.5 245.1 244.8 245.2 135.3-.1 244.9-109.9 244.8-245.2v-245.2h-244.8c-135.3.1-244.9 109.9-244.8 245.2zm652.7 0v654c-.2 135.3 109.4 245.1 244.7 245.3 135.3-.1 244.9-109.9 244.8-245.2v-653.9c.2-135.3-109.4-245.1-244.7-245.3-135.4 0-244.9 109.8-244.8 245.1 0 0 0 .1 0 0"
+                                        fill="#e01e5a" />
+                                    </g>
+                                  </svg>
+                                  Connect with Slack
+                                </button>
                                 <button
                                   class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                   type="button" onclick="toggleModal('host-modal')">
@@ -438,20 +458,18 @@
                               <div
                                 class="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                                 <!--header-->
-                                <div
-                                  class="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                                <div class="flex items-start p-5 border-b border-solid border-slate-200 rounded-t">
                                   <h3 class="text-2xl font-semibold">
                                     모임 참여자 정보
                                   </h3>
-                                  <button
-                                    class="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
-                                    onclick="toggleModal('participant-modal')">
-                                    <span
-                                      class="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
-                                      ×
-                                    </span>
-                                  </button>
                                 </div>
+                                <div class="flex justify-center pt-5">
+                                  <span> 🎉 모임이 결성되었습니다! </span>
+                                </div>
+                                <h3 class="flex justify-center p-5 text-sm font-semibold">
+                                  Slack에 이메일 주소를 입력해서 추가 대화를 진행해주세요!
+                                </h3>
+                                <hr class="h-px mx-4 bg-gray-200 border-0">
                                 <!--body-->
                                 <div class="relative p-6 flex-auto">
                                   {% for user in participant.participant %}
@@ -478,6 +496,28 @@
                                 <!--footer-->
                                 <div
                                   class="flex justify-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                                  <button type="button"
+                                    class="text-gray-900 bg-white hover:bg-gray-100 border border-gray-200 focus:ring-4 focus:outline-none focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center mr-2 mb-2"
+                                    onclick="window.open('https://slack.com')">
+                                    <svg enable-background="new 0 0 2447.6 2452.5" class="mr-2 -ml-1 w-6 h-6"
+                                      viewBox="0 0 2447.6 2452.5" xmlns="http://www.w3.org/2000/svg">
+                                      <g clip-rule="evenodd" fill-rule="evenodd">
+                                        <path
+                                          d="m897.4 0c-135.3.1-244.8 109.9-244.7 245.2-.1 135.3 109.5 245.1 244.8 245.2h244.8v-245.1c.1-135.3-109.5-245.1-244.9-245.3.1 0 .1 0 0 0m0 654h-652.6c-135.3.1-244.9 109.9-244.8 245.2-.2 135.3 109.4 245.1 244.7 245.3h652.7c135.3-.1 244.9-109.9 244.8-245.2.1-135.4-109.5-245.2-244.8-245.3z"
+                                          fill="#36c5f0" />
+                                        <path
+                                          d="m2447.6 899.2c.1-135.3-109.5-245.1-244.8-245.2-135.3.1-244.9 109.9-244.8 245.2v245.3h244.8c135.3-.1 244.9-109.9 244.8-245.3zm-652.7 0v-654c.1-135.2-109.4-245-244.7-245.2-135.3.1-244.9 109.9-244.8 245.2v654c-.2 135.3 109.4 245.1 244.7 245.3 135.3-.1 244.9-109.9 244.8-245.3z"
+                                          fill="#2eb67d" />
+                                        <path
+                                          d="m1550.1 2452.5c135.3-.1 244.9-109.9 244.8-245.2.1-135.3-109.5-245.1-244.8-245.2h-244.8v245.2c-.1 135.2 109.5 245 244.8 245.2zm0-654.1h652.7c135.3-.1 244.9-109.9 244.8-245.2.2-135.3-109.4-245.1-244.7-245.3h-652.7c-135.3.1-244.9 109.9-244.8 245.2-.1 135.4 109.4 245.2 244.7 245.3z"
+                                          fill="#ecb22e" />
+                                        <path
+                                          d="m0 1553.2c-.1 135.3 109.5 245.1 244.8 245.2 135.3-.1 244.9-109.9 244.8-245.2v-245.2h-244.8c-135.3.1-244.9 109.9-244.8 245.2zm652.7 0v654c-.2 135.3 109.4 245.1 244.7 245.3 135.3-.1 244.9-109.9 244.8-245.2v-653.9c.2-135.3-109.4-245.1-244.7-245.3-135.4 0-244.9 109.8-244.8 245.1 0 0 0 .1 0 0"
+                                          fill="#e01e5a" />
+                                      </g>
+                                    </svg>
+                                    Connect with Slack
+                                  </button>
                                   <button
                                     class="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                     type="button" onclick="toggleModal('participant-modal')">
