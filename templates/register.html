@@ -40,13 +40,10 @@
       } else if (nickname_regex.test(name) == false) {
         alert("닉네임을 확인하세요.")
         return false
-      } else if (password !== confirm_word) {
+      } else if (password !== confirm_password) {
         alert("비밀번호를 확인하세요.")
         return false
       }
-
-
-
 
       $.ajax({
         type: "POST",
