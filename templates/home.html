@@ -98,7 +98,7 @@
         },
         success: function (response) {
           if (response["result"] == "success") {
-            alert(response['result']);
+            alert('모임이 삭제되었습니다.');
           }
           else {
             alert(response['result']);
@@ -425,7 +425,7 @@
                         </p>
                         <div class="flex justify-between inline-block">
                           {% if participant.state == '1' %}
-                          <button onclick="toggleModal('host-modal')"
+                          <button onclick="toggleModal('participant-modal')"
                             class="bg-blue-500 hover:bg-blue-700 text-white text-xs font-bold mt-4 py-2 px-3 rounded">
                             참여자
                           </button>
@@ -454,7 +454,6 @@
                                 </div>
                                 <!--body-->
                                 <div class="relative p-6 flex-auto">
-                                  <p>{{ participant.participant }}</p>
                                   {% for user in participant.participant %}
                                   <div class="py-1">
                                     <div class="flex justify-center bg-slate-700 rounded-md p-6">
@@ -488,7 +487,8 @@
                               </div>
                             </div>
                           </div>
-                          <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="host-modal-backdrop"></div>
+                          <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="participant-modal-backdrop">
+                          </div>
                           {% else %}
                           <button onclick="cancelParty('{{participant._id}}')"
                             class="bg-red-500 hover:bg-red-700 text-white text-xs font-bold mt-4 py-2 px-3 rounded">

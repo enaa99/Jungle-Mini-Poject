@@ -58,7 +58,7 @@
             alert('수정 완료');
             window.location.href = '/home';
           } else if (response["result"] == 'failed') {
-            alert(response["result"]);
+            alert("수정 실패");
             window.location.href = '/';
           }
           else {
