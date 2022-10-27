@@ -11,24 +11,26 @@
 
   <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
     integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
-  </script>
+    </script>
   <script>
     $(document).ready(function () {
-        showInfo();
+      showInfo();
     });
-    function showInfo(){
-        $.ajax({
-            type: "GET",
-            url: "/auth/info",
-            data: {},
-            success: function (response) {
-            if (response["result"] == "success") {
-                let info = response['info'];
-                $('#id').val(info['id'])
-                $('#email').val(info['email'].split('@')[0])
-                $('#nickname').val(info['name'])  
-            }
-}})}
+    function showInfo() {
+      $.ajax({
+        type: "GET",
+        url: "/auth/info",
+        data: {},
+        success: function (response) {
+          if (response["result"] == "success") {
+            let info = response['info'];
+            $('#id').val(info['id'])
+            $('#email').val(info['email'].split('@')[0])
+            $('#nickname').val(info['name'])
+          }
+        }
+      })
+    }
 
     function cancelClick() {
       window.location.href = '/home';
@@ -52,17 +54,17 @@
           radio_give: radio
         },
         success: function (response) {
-        if (response["result"] == "success") {
+          if (response["result"] == "success") {
             alert('수정 완료');
             window.location.href = '/home';
-        } else if (response["result"] == 'failed'){
+          } else if (response["result"] == 'failed') {
             alert(response["result"]);
             window.location.href = '/';
-        }
-        else{
+          }
+          else {
             alert(response["result"]);
             window.location.reload()
-        }
+          }
 
 
         }
@@ -70,11 +72,11 @@
     }
 
 
-    
+
     function checkPasswordForm() {
       let password = $("#password").val();
       let password_regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,30}$/;
-      
+
       if (password.length < 8 || password_regex.test(password) == false) {
         let match = "비밀번호는 8자 이상, 1개 이상의 숫자, 1개이상의 소문자, 1개이상의 특수문자로 작성해주세요."
         let result = match.fontcolor('red');
@@ -102,7 +104,7 @@
 
     function checkNickname() {
       let nickname = $("#nickname").val();
-      let nickname_regex =  /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]{2,12}$/;
+      let nickname_regex = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|]{2,12}$/;
       if (nickname_regex.test(nickname) == false) {
         let match = "닉네임은는 2자 이상으로 입력하세요."
         let result = match.fontcolor('red');
@@ -114,7 +116,7 @@
       }
     }
 
-    
+
   </script>
 
   <title>Krafton Jungle Team06</title>
@@ -130,34 +132,36 @@
 
       <div class="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
         <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-          <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
-            내 정보 수정
-          </h1>
+          <div class="flex justify-center">
+            <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
+              내 정보 수정
+            </h1>
+          </div>
           <form class="space-y-4 md:space-y-6" action="#">
             <div>
               <label for="id" class="block mb-2 text-sm font-medium text-gray-900">아이디</label>
               <!-- <div class="flex items-center"> -->
-                <div class="flex items-stretch">
+              <div class="flex items-stretch">
                 <div class="pr-1">
                   <input type="text" name="id" id="id" disabled="disabled"
                     class="bg-gray-50 border border-gray-300 cursor-not-allowed text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-half p-2.5"
                     placeholder="아이디를 입력해주세요" ;" />
                 </div>
               </div>
-              <div id="divCheckIdForm" ></div>
+              <div id="divCheckIdForm"></div>
 
               <div>
                 <label for="password" class="block mb-2 text-sm font-medium text-gray-900 pt-2">비밀번호</label>
                 <input type="password" name="password" id="password" placeholder="비밀번호를 입력해주세요"
                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                   onchange="checkPasswordForm();" />
+                  onchange="checkPasswordForm();" />
                 <div id="divCheckPasswordForm"></div>
               </div>
               <div>
                 <label for="confirm_password" class="block mb-2 text-sm font-medium text-gray-900 pt-2">비밀번호 확인</label>
                 <input type="password" name="confirm_password" id="confirm_password" placeholder="비밀번호를 입력해주세요"
                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                   onchange="checkPasswordMatch();" />
+                  onchange="checkPasswordMatch();" />
                 <div id="divCheckPasswordMatch"></div>
               </div>
 
@@ -165,9 +169,8 @@
                 <label for="name" class="block mb-2 text-sm font-medium text-gray-900 pt-2">닉네임</label>
                 <input type="text" name="nickname" id="nickname"
                   class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
-                  placeholder="닉네임을 입력해주세요"  
-                  onchange="checkNickname();"/>
-                  <div id="divCheckNicknameForm"></div>
+                  placeholder="닉네임을 입력해주세요" onchange="checkNickname();" />
+                <div id="divCheckNicknameForm"></div>
               </div>
               <div>
                 <label for="email" class="block mb-2 text-sm font-medium text-gray-900 pt-2">E-Mail</label>
@@ -176,12 +179,12 @@
                   <div class="pr-1">
                     <input type="text" name="email" id="email" disabled="disabled"
                       class="bg-gray-50 border border-gray-300 text-gray-900 cursor-not-allowed sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-half p-2.5"
-                      placeholder="이메일을 입력해주세요"  />
+                      placeholder="이메일을 입력해주세요" />
                   </div>
                   <div>
-                    <input type="text" 
+                    <input type="text"
                       class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-half p-2.5"
-                      placeholder="@gmail.com"  disabled />
+                      placeholder="@gmail.com" disabled />
                   </div>
           </form>
         </div>
@@ -207,9 +210,8 @@
           </li>
         </ul>
       </div>
-      <div class="pt-2">
-
-        <button type="button" onclick ="userModify()"
+      <div class="flex justify-center pt-8">
+        <button type="button" onclick="userModify()"
           class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 pt-2">
           수정
         </button>
@@ -225,6 +227,13 @@
     </div>
     </div>
   </section>
+  <footer>
+    <p class="text-center text-sm text-gray-500 my-10">
+      &copy; 2022
+      <a href="http://github.com/Krafton-Jungle-Team6/Jungle-Mini-Poject" class="hover:underline"
+        target="_blank">Krafton Jungle Week00 Team06</a>. All rights reserved.
+    </p>
+  </footer>
 </body>
 
 </html>

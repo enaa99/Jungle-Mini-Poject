@@ -104,21 +104,22 @@ def homecoming():
     if uid == False :
         return redirect('/')
     
-    result = list(db.party.find({}))
+    result = list(db.party.find({}).sort('time'))
+
     for data in result:
         if uid == data['host']:
             h_participants = []
             host_party.append(data)
             for participant_id in data['participant']:
-                participant_nickname = db.user.find_one({'id': participant_id})['name']
-                h_participants.append(participant_nickname)
+                participant = db.user.find_one({'id': participant_id})
+                h_participants.append(participant)
             host_party[-1]['participant'] = h_participants
         elif uid in data['participant']:
             p_participants = []
             participant_party.append(data)
             for participant_id in data['participant']:
-                participant_nickname = db.user.find_one({'id': participant_id})['name']
-                p_participants.append(participant_nickname)
+                participant = db.user.find_one({'id': participant_id})
+                p_participants.append(participant)
             participant_party[-1]['participant'] = p_participants
         elif data['state'] == '0':
             partys.append(data)
@@ -282,6 +283,7 @@ def party_register():
     participant = [host_receive]
     now = datetime.now()
     dt_string = now.strftime("%H:%M")
+    print(time.strptime(dt_string,"%H:%M") , time.strptime(time_receive,"%H:%M"))
 
     if time.strptime(dt_string,"%H:%M") < time.strptime(time_receive,"%H:%M"):
 
