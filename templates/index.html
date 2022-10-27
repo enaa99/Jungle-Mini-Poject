@@ -55,7 +55,7 @@
             $.cookie("mytoken", response["token"], { path: "/" });
             window.location.replace("/home");
           } else {
-            alert(response["result"]);
+            alert('로그인에 실패하였습니다.');
           }
         },
       });
